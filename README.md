@@ -19,17 +19,22 @@ _`GNU Make` is recommended to take advantage of pre-defined recipes in `Makefile
 
 1. On Proxmox VE server:
     * Run the below script to build an Ubuntu VM template:
-        ```
+        ```sh
         curl -s https://raw.githubusercontent.com/khanh-ph/proxmox-scripts/master/create-cloud-init-VM-template.sh | sudo bash
         ```
     * Verify if the template `ubuntu-2004-cloudinit-minimal` is created:
-        ```
+        ```sh
         sudo qm list | grep cloudinit
         ```
 
 2. On your local machine:
-    * Set the required environment variables:
+
+    * Clone the repo
+        ```sh
+        git clone https://github.com/khanh-ph/pineapple-cluster.git
         ```
+    * Set the required environment variables:
+        ```sh
         # Your Proxmox API URL. For example: https://PROXMOX_IP_ADDRESS:8006/api2/json
         export TF_VAR_pm_api_url=YOUR_PROXMOX_API_URL
         
@@ -49,12 +54,12 @@ _`GNU Make` is recommended to take advantage of pre-defined recipes in `Makefile
 
 ### Usage
 On your local machine, create your Kubernetes cluster with a single command:
-```
+```sh
 make cluster
 ```
 
 If `GNU make` is not available, you will need to run the following commands respectively to accomplish the same goal:
-```
+```sh
 terraform init
 terraform fmt -check
 terraform validate
@@ -64,17 +69,17 @@ terraform apply --auto-approve
 ### Customization
 
 By updating the Terraform variables, you can modify the cluster settings on demand:
-```
+```sh
 export TF_VAR_control_plane_node_count=NUMBER_OF_CONTROL_PLANE_NODE
 export TF_VAR_worker_node_count=NUMBER_OF_WORKER_NODE
 ```
 
 Then, try a dry-run to see the differences:
-```
+```sh
 make plan
 ```
 
 Once you are confident with the plan, it is time to update the infrastructure:
-```
+```sh
 make cluster
 ```
