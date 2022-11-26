@@ -1,0 +1,12 @@
+# Terraform local files
+.terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+cloud.tf
+
+# OS files
+Icon*
+.DS_Store
+*.ini
