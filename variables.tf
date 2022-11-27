@@ -32,3 +32,13 @@ variable "worker_node_count" {
   description = "The number of Kubernetes Worker node"
   default     = 2
 }
+variable "cluster_name" {
+  type        = string
+  description = "The name of cluster"
+  default     = "example-k8s"
+}
+variable "vm_authorized_keys" {
+  type        = string
+  description = "SSH public keys of the Bastion host"
+  default     = ""
+}
