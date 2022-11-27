@@ -35,6 +35,9 @@ _`GNU Make` is recommended to take advantage of pre-defined recipes in `Makefile
         ```
     * Set the required environment variables:
         ```sh
+        # Set parallelism=1 while running terraform apply. This is to prevent errors on Proxmox concurrent operations.
+        export TF_CLI_ARGS_apply="-parallelism=1"
+
         # Your Proxmox API URL. For example: https://PROXMOX_IP_ADDRESS:8006/api2/json
         export TF_VAR_pm_api_url=YOUR_PROXMOX_API_URL
         
