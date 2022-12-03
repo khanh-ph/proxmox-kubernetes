@@ -1,7 +1,7 @@
-output "worker_ips" {
-  value = module.promox_kubernetes_worker.vm_ips
+output "workers" {
+  value = module.promox_kubernetes_worker.vms
 }
 
-output "control_plane_ips" {
-  value = module.promox_kubernetes_control_plane.vm_ips
+output "control_planes" {
+  value = module.promox_kubernetes_control_plane.vms
 }

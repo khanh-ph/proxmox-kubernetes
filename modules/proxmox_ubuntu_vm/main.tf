@@ -49,4 +49,13 @@ resource "proxmox_vm_qemu" "vm" {
   sshkeys = <<EOF
   ${var.vm_authorized_keys}
   EOF
+
+  # lifecycle {
+  #   ignore_changes = [
+  #     ciuser,
+  #     sshkeys,
+  #     disk.
+  #     network
+  #   ]
+  # }
 }
