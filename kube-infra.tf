@@ -1,4 +1,4 @@
-module "k8s" {
+module "infrastructure" {
   source = "./modules/proxmox_kubernetes_cluster"
 
   pm_host             = var.pm_host
@@ -12,18 +12,19 @@ module "k8s" {
   control_plane = {
     vm_count           = var.control_plane_node_count
     vm_disk_storage    = var.vm_disk_storage
-    vm_os_disk_size_gb = 10
-    vm_memory_mb       = 1024
-    vm_cpus            = 2
+    vm_os_disk_size_gb = var.vm_os_disk_size_gb
+    vm_memory_mb       = var.vm_memory_mb
+    vm_cpus            = var.vm_cpus
     vm_authorized_keys = var.vm_authorized_keys
   }
 
   worker = {
     vm_count           = var.worker_node_count
     vm_disk_storage    = var.vm_disk_storage
-    vm_os_disk_size_gb = 15
-    vm_memory_mb       = 2048
-    vm_cpus            = 2
+    vm_os_disk_size_gb = var.vm_os_disk_size_gb
+    vm_memory_mb       = var.vm_memory_mb
+    vm_cpus            = var.vm_cpus
     vm_authorized_keys = var.vm_authorized_keys
   }
 }
+

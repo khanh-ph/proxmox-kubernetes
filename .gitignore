@@ -5,6 +5,7 @@
 *.tfvars
 *.tfplan
 cloud.tf
+tmp
 
 # OS files
 Icon*

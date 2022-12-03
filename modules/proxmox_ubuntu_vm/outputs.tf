@@ -1,3 +1,5 @@
-output "vm_ips" {
-  value = proxmox_vm_qemu.vm[*].ssh_host
+output "vms" {
+  value = {
+    for host in proxmox_vm_qemu.vm : host.name => host.ssh_host
+  }
 }

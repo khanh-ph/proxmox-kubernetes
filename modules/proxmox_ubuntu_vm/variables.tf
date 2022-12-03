@@ -27,7 +27,7 @@ variable "pm_host" {
 variable "template_name" {
   type        = string
   description = "Name of cloud-init ubuntu template on Proxmox"
-  default     = "ubuntu-2004-cloudinit-minimal"
+  default     = "ubuntu-2204"
 }
 
 variable "prefix" {

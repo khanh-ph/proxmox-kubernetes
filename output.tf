@@ -1,7 +1,7 @@
-output "worker_ips" {
-  value = module.k8s.worker_ips
+output "workers" {
+  value = module.infrastructure.workers
 }
 
-output "control_plane_ips" {
-  value = module.k8s.control_plane_ips
+output "control_planes" {
+  value = module.infrastructure.control_planes
 }
