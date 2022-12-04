@@ -47,3 +47,17 @@ resource "local_file" "addons" {
     module.infrastructure
   ]
 }
+
+resource "local_file" "ansible_private_key" {
+  content = templatefile(
+    "kubespray/ansible-pvkey.tftpl",
+    {
+      key = base64decode(var.base64_ansible_private_key)
+    }
+  )
+  filename = "${var.ks_tmp}/id_rsa"
+
+  depends_on = [
+    module.infrastructure
+  ]
+}
