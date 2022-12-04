@@ -15,6 +15,7 @@ jobs:
     - name: Generate release tag
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         VERSION=$(curl -s https://raw.githubusercontent.com/khanh-ph/github-actions-scripts/master/gen-next-semver/gen-next-semver.sh | sudo bash)
         echo VERSION=$VERSION >> $GITHUB_ENV
