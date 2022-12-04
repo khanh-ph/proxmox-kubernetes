@@ -1,0 +1,20 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - "GitHub Actions Bot"
+  categories:
+    - title: Breaking Changes
+      labels:
+        - breaking-change
+    - title: New Features
+      labels:
+        - enhancement
+        - feature
+    - title: Bug Fixes
+      labels:
+        - bugfix
+    - title: Other Changes
+      labels:
+        - "*"
