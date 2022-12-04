@@ -35,7 +35,7 @@ ks_img:
 	@docker pull $(ks_img)
 
 k8s: ks_img
-	@echo ${TF_VAR_ansible_private_key} | base64 --decode > $(ks_tmp)/id_rsa
+	@echo ${TF_VAR_base64_ansible_private_key} | base64 --decode > $(ks_tmp)/id_rsa
 	@sudo chmod 600 $(ks_tmp)/id_rsa
 	@docker run --rm -it \
 	--mount type=bind,source="${ks_tmp_abspath}/inventory.ini",dst=/inventory/sample/inventory.ini \

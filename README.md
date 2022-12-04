@@ -71,7 +71,7 @@ Before we start, make sure you have the following things in place:
         # You are free to generate your key-pair, encode the private key with base64 then put it here. 
         # Be noted that the private key should be in the same key-pair with at least one of the public keys specified in `TF_VAR_vm_authorized_keys` 
         # On local machine, you may simply use the private key of the current user as following:
-        export TF_VAR_ansible_private_key_base64=$(cat ~/.ssh/id_rsa | base64)
+        export TF_VAR_base64_ansible_private_key=$(cat ~/.ssh/id_rsa | base64)
         ```
 
 ### Usage
