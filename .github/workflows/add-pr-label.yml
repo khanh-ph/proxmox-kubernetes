@@ -1,0 +1,35 @@
+name: Add PR label
+
+on:
+  pull_request:
+    types: [opened, reopened, assigned, synchronize]
+  
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Add `feature` label
+      uses: actions-ecosystem/action-add-labels@v1
+      if: ${{ startsWith(github.head_ref, 'feature/') }}
+      with:
+        labels: feature
+
+    - name: Add `ignore-for-release` label
+      uses: actions-ecosystem/action-add-labels@v1
+      if: ${{ startsWith(github.head_ref, 'release/') || startsWith(github.head_ref, 'github/') }}
+      with:
+        labels: ignore-for-release
+    
+    - name: Add bugfix label
+      uses: actions-ecosystem/action-add-labels@v1
+      if: ${{ startsWith(github.head_ref, 'bugfix/') }}
+      with:
+        labels: bugfix
+
+    - name: Add `breaking-change` label
+      uses: actions-ecosystem/action-add-labels@v1
+      if: ${{ startsWith(github.head_ref, 'breakingchange/') }}
+      with:
+        labels: breaking-change
