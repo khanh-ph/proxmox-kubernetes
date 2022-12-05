@@ -42,8 +42,8 @@ jobs:
       - name: Merge master into develop branch (Gitflow)
         uses: thomaseizinger/create-pull-request@1.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           head: master
           base: develop
-          title: Gitflow - Merge master into develop branch
+          title: Merge master into develop branch (Gitflow)
