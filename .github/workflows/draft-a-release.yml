@@ -12,28 +12,25 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Generate release tag
+    - name: Generate the release tag
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        VERSION=$(curl -s https://raw.githubusercontent.com/khanh-ph/github-actions-scripts/master/gen-next-semver/gen-next-semver.sh | sudo bash)
+        VERSION=$(curl -s https://raw.githubusercontent.com/khanh-ph/github-actions-scripts/master/gen-next-semver/gen-next-semver.sh | bash)
         echo VERSION=$VERSION >> $GITHUB_ENV
         echo BRANCH=release/$VERSION >> $GITHUB_ENV
 
-    - name: Create release branch
+    - name: Create the release branch
       run: |
         git checkout -b ${{ env.BRANCH }}
 
     - name: Push release branch
       run: git push origin ${{ env.BRANCH }}
 
-    - name: Create a pull request
-      uses: thomaseizinger/create-pull-request@1.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT }}
+    - name: Create a Pull Request
+      uses: peter-evans/create-pull-request@v4
       with:
-        head: ${{ env.BRANCH }}
         base: master
+        branch: ${{ env.BRANCH }}
         title: Release version ${{ env.VERSION }}
  
