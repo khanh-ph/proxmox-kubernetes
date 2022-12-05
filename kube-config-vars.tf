@@ -48,3 +48,7 @@ variable "ks_tmp" {
   description = "Kubespray temporary directory"
   default     = "kubespray/tmp"
 }
+variable "base64_ansible_private_key" {
+  type        = string
+  description = "The ansible private key for SSH based authentication in base64"
+}
