@@ -13,7 +13,7 @@ fmt: $(modules:%=%/fmt)
 	@cd $* && terraform fmt
 
 init:
-	@terraform init
+	@terraform init -input=false
 
 test: init $(modules:%=%/fmt_check)
 	@terraform fmt -check
@@ -23,19 +23,16 @@ test: init $(modules:%=%/fmt_check)
 	@cd $* && terraform fmt -check
 
 plan: test
-	@terraform plan
+	@terraform plan -input=false
 
 destroy:
 	@terraform destroy
 
 infra: test
-	@terraform apply --auto-approve -var ks_tmp=$(ks_tmp)
+	@terraform apply -input=false --auto-approve -var ks_tmp=$(ks_tmp)
 
-ks_img:
+k8s:
 	@docker pull $(ks_img)
-
-k8s: ks_img
-	@echo ${TF_VAR_base64_ansible_private_key} | base64 --decode > $(ks_tmp)/id_rsa
 	@sudo chmod 600 $(ks_tmp)/id_rsa
 	@docker run --rm -it \
 	--mount type=bind,source="${ks_tmp_abspath}/inventory.ini",dst=/inventory/sample/inventory.ini \
@@ -50,7 +47,7 @@ cluster: infra k8s clean
 clean: $(needs_cleanup:%=%/clean)
 
 %/clean:
-	@rm -rf $*
+	@sudo rm -rf $*
 
-.PHONY: fmt init test plan destroy infra kubespray_image k8s cluster clean
+.PHONY: fmt init test plan destroy infra k8s cluster clean
 .PHONY: %/fmt %/fmt_check %/clean
