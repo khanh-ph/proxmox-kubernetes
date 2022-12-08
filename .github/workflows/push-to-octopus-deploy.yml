@@ -1,4 +1,4 @@
-name: Push released package to Octopus Deploy
+name: Push to Octopus Deploy
 
 on: 
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         required: true
 
 jobs:
-  draft-a-release:
+  push-package-and-create-release:
     runs-on: ubuntu-latest
     steps:
     - name: Download release asset
