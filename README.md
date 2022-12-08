@@ -1,6 +1,6 @@
 ## About the project
 
-`Pineapple-cluster` is an Infrastructure as Code (IaC) project to build up a Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray).
+An Infrastructure as Code (IaC) project to build up a Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray).
 
 ## Getting started
 
