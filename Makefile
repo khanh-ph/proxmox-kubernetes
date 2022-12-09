@@ -34,7 +34,7 @@ infra: test
 k8s:
 	@docker pull $(ks_img)
 	@sudo chmod 600 $(ks_tmp)/id_rsa
-	@docker run --rm -it \
+	@docker run --rm \
 	--mount type=bind,source="${ks_tmp_abspath}/inventory.ini",dst=/inventory/sample/inventory.ini \
 	--mount type=bind,source="${ks_tmp_abspath}/addons.yml",dst=/inventory/sample/group_vars/k8s_cluster/k8s-cluster.yml \
 	--mount type=bind,source="${ks_tmp_abspath}/k8s-cluster.yml",dst=/inventory/sample/group_vars/k8s_cluster/addons.yml \

@@ -1,0 +1,46 @@
+name: Push to Octopus Deploy
+
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag. For e.g: 1.0.0'
+        required: true
+
+jobs:
+  push-package-and-create-release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download release asset
+      uses: robinraju/release-downloader@v1.6
+      with:
+        tag: ${{ github.event.inputs.version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        zipBall: true
+        out-file-path: "packages"
+
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octopus-cli-action@v1
+      with:
+        version: '*'
+
+    - name: Upload package and create new release in Octopus Deploy
+      env:
+        OCTO_SERVER_URL: ${{ secrets.OCTO_SERVER_URL }}
+        OCTO_API_KEY: ${{ secrets.OCTO_API_KEY }}
+        OCTO_PROJECT_ID: ${{ secrets.OCTO_PROJECT_ID }}
+        OCTO_PKG_ID: ${{ secrets.OCTO_PKG_ID }}
+        OCTO_PKG_VERSION: ${{ github.event.inputs.version }}
+      run: |
+        cd packages
+        mv ${{ env.OCTO_PKG_ID }}-${{ env.OCTO_PKG_VERSION }}.zip ${{ env.OCTO_PKG_ID }}.${{ env.OCTO_PKG_VERSION }}.zip
+        octo push --package="./${{ env.OCTO_PKG_ID }}.${{ env.OCTO_PKG_VERSION }}.zip" \
+        --overwrite-mode=OverwriteExisting \
+        --server="${{ env.OCTO_SERVER_URL }}" \
+        --apiKey="${{ env.OCTO_API_KEY }}"
+        octo create-release --project=${{ env.OCTO_PROJECT_ID }} \
+        --version=${{ env.OCTO_PKG_VERSION }} \
+        --package=${{ env.OCTO_PKG_ID }}:${{ env.OCTO_PKG_VERSION }} \
+        --server="${{ env.OCTO_SERVER_URL }}" \
+        --apiKey="${{ env.OCTO_API_KEY }}"
+ 
