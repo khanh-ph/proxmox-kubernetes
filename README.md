@@ -40,7 +40,8 @@ Before we start, make sure you have the following things in place:
 
     * Clone the repo
         ```sh
-        git clone https://github.com/khanh-ph/pineapple-cluster.git
+        git clone https://github.com/khanh-ph/baremetal-cluster.git
+        cd baremetal-cluster
         ```
     * Set the required environment variables:
         ```sh
@@ -78,12 +79,27 @@ Before we start, make sure you have the following things in place:
 
 ### Usage
 
+#### Deployment
+
 On your local machine, create your Kubernetes cluster with a single command:
 ```sh
 make cluster
 ```
 
-#### Configuration
+#### Kubectl
+
+When you added the SSH public key of the machine where the deployment is triggered into `TF_VAR_base64_vm_authorized_keys`, the kubeconfig file on the master node would be copied to the machine automatically. You can access the cluster right away:
+```sh
+kubectl get all
+```
+To access the cluster from another machine, try the following command:
+```sh
+git clone https://github.com/khanh-ph/baremetal-cluster.git
+cd baremetal-cluster
+make kubectl
+```
+
+#### Other configurations
 
 Environment variables in the format `TF_VAR_name` can be used to set Terraform variables. Please look into `*-vars.tf` files for usage.
 
