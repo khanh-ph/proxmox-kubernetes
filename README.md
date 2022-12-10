@@ -40,7 +40,8 @@ Before we start, make sure you have the following things in place:
 
     * Clone the repo
         ```sh
-        git clone https://github.com/khanh-ph/pineapple-cluster.git
+        git clone https://github.com/khanh-ph/baremetal-kubernetes.git
+        cd baremetal-kubernetes
         ```
     * Set the required environment variables:
         ```sh
@@ -64,26 +65,41 @@ Before we start, make sure you have the following things in place:
         # Your Proxmox storage ID where the Guest VM disks will be allocated; E.g: local-zfs, local-lvm
         export TF_VAR_vm_disk_storage=PROXMOX_STORAGE_ID
 
-        # The SSH public key of the Ansible or Bastion host for SSH key-based authentication. This key will be copied to all the VMs.
-        # You are free to generate your key-pair then put here the SSH public key.
-        # On local machine, you may simply assign the public key of the current user as following:
-        export TF_VAR_vm_authorized_keys=$(cat ~/.ssh/id_rsa.pub)
+        # The SSH public key of the Ansible or Bastion host for SSH key-based authentication. These keys will be copied to all the VMs.
+        # You are free to generate your key-pair, encode the SSH public key with base64 then put it here.
+        # On local machine, you may simply use the public key of the current user as following:
+        export TF_VAR_base64_vm_authorized_keys=$(cat ~/.ssh/id_rsa.pub | base64)
 
         # The SSH private key used by Ansible / Kubespray for SSH key-based authentication.
         # You are free to generate your key-pair, encode the private key with base64 then put it here. 
-        # Be noted that the private key should be in the same key-pair with at least one of the public keys specified in `TF_VAR_vm_authorized_keys` 
+        # Be noted that the private key should be in the same key-pair with at least one of the public keys specified in `TF_VAR_base64_vm_authorized_keys` 
         # On local machine, you may simply use the private key of the current user as following:
         export TF_VAR_base64_ansible_private_key=$(cat ~/.ssh/id_rsa | base64)
         ```
 
 ### Usage
 
+#### Deployment
+
 On your local machine, create your Kubernetes cluster with a single command:
 ```sh
 make cluster
 ```
 
-#### Configuration
+#### Kubectl
+
+When you added the SSH public key of the machine where the deployment is triggered into `TF_VAR_base64_vm_authorized_keys`, the kubeconfig file on the master node would be copied to the machine automatically. You can access the cluster right away:
+```sh
+kubectl get all
+```
+To access the cluster from another machine, try the following command:
+```sh
+git clone https://github.com/khanh-ph/baremetal-kubernetes.git
+cd baremetal-kubernetes
+make kubectl
+```
+
+#### Other configurations
 
 Environment variables in the format `TF_VAR_name` can be used to set Terraform variables. Please look into `*-vars.tf` files for usage.
 
