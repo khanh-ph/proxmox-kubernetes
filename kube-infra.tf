@@ -15,7 +15,7 @@ module "infrastructure" {
     vm_os_disk_size_gb = var.vm_os_disk_size_gb
     vm_memory_mb       = var.vm_memory_mb
     vm_cpus            = var.vm_cpus
-    vm_authorized_keys = var.vm_authorized_keys
+    vm_authorized_keys = base64decode(var.base64_vm_authorized_keys)
   }
 
   worker = {
@@ -24,7 +24,7 @@ module "infrastructure" {
     vm_os_disk_size_gb = var.vm_os_disk_size_gb
     vm_memory_mb       = var.vm_memory_mb
     vm_cpus            = var.vm_cpus
-    vm_authorized_keys = var.vm_authorized_keys
+    vm_authorized_keys = base64decode(var.base64_vm_authorized_keys)
   }
 }
 

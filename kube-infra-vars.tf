@@ -52,8 +52,8 @@ variable "vm_cpus" {
   description = "The number of VM CPU cores"
   default     = 2
 }
-variable "vm_authorized_keys" {
+variable "base64_vm_authorized_keys" {
   type        = string
-  description = "SSH public keys of the Bastion host"
+  description = "base64 encoded SSH public keys of the Ansible control / Kubectl client host"
   default     = ""
 }
