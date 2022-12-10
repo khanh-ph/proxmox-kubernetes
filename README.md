@@ -40,8 +40,8 @@ Before we start, make sure you have the following things in place:
 
     * Clone the repo
         ```sh
-        git clone https://github.com/khanh-ph/baremetal-cluster.git
-        cd baremetal-cluster
+        git clone https://github.com/khanh-ph/baremetal-kubernetes.git
+        cd baremetal-kubernetes
         ```
     * Set the required environment variables:
         ```sh
@@ -94,8 +94,8 @@ kubectl get all
 ```
 To access the cluster from another machine, try the following command:
 ```sh
-git clone https://github.com/khanh-ph/baremetal-cluster.git
-cd baremetal-cluster
+git clone https://github.com/khanh-ph/baremetal-kubernetes.git
+cd baremetal-kubernetes
 make kubectl
 ```
 
