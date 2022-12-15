@@ -57,3 +57,21 @@ variable "base64_vm_authorized_keys" {
   description = "base64 encoded SSH public keys of the Ansible control / Kubectl client host"
   default     = ""
 }
+
+variable "vm_net_dhcp_enabled" {
+  type        = bool
+  description = "use DHCP for all VMs IP"
+  default     = true
+}
+
+variable "vm_net_bridge" {
+  type        = string
+  description = "Linux bridge name where the VM is attached to"
+  default     = "vmbr0"
+}
+
+variable "vm_net_cidr" {
+  type        = string
+  description = "CIDR of vm_net_bridge"
+  default     = ""
+}

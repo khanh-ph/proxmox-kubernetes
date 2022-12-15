@@ -56,6 +56,7 @@ variable "vm_count" {
 variable "vm_disk_storage" {
   type        = string
   description = "Storage type; e.g: local-lvm or local-zfs"
+  default     = "local-zfs"
 }
 
 variable "vm_os_disk_size_gb" {
@@ -94,8 +95,26 @@ variable "vm_socket" {
   default     = 1
 }
 
-variable "vm_ifconfig0" {
+variable "vm_net_dhcp_enabled" {
+  type        = bool
+  description = "use DHCP for all VMs IP"
+  default     = true
+}
+
+variable "vm_net_bridge" {
   type        = string
-  description = "IP configuration for the first NIC"
-  default     = "ip=dhcp"
+  description = "Linux bridge name where the VM is attached to"
+  default     = "vmbr0"
+}
+
+variable "vm_net_cidr" {
+  type        = string
+  description = "CIDR of vm_net_bridge"
+  default     = ""
+}
+
+variable "vm_net_hostnum_start" {
+  type        = string
+  description = "hostnum to calculate VM IP from CIDR"
+  default     = 2
 }
