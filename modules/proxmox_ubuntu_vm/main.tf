@@ -34,16 +34,16 @@ resource "proxmox_vm_qemu" "vm" {
   disk {
     slot    = 0
     type    = "scsi"
-    storage = try(var.vm_disk_storage, "local-zfs")
-    size    = try("${var.vm_os_disk_size_gb}G", "10G")
+    storage = var.vm_disk_storage
+    size    = "${var.vm_os_disk_size_gb}G"
   }
 
   network {
     model  = "virtio"
-    bridge = "vmbr0"
+    bridge = var.vm_net_bridge
   }
 
-  ipconfig0 = var.vm_ifconfig0
+  ipconfig0 = var.vm_net_dhcp_enabled == true ? "ip=dhcp" : "ip=${cidrhost(var.vm_net_cidr, var.vm_net_hostnum_start + count.index + 1)}/${split("/", var.vm_net_cidr)[1]},gw=${cidrhost(var.vm_net_cidr, 1)}"
 
   ciuser  = var.vm_user
   sshkeys = <<EOF

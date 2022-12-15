@@ -10,21 +10,27 @@ module "infrastructure" {
   name = var.cluster_name
 
   control_plane = {
-    vm_count           = var.control_plane_node_count
-    vm_disk_storage    = var.vm_disk_storage
-    vm_os_disk_size_gb = var.vm_os_disk_size_gb
-    vm_memory_mb       = var.vm_memory_mb
-    vm_cpus            = var.vm_cpus
-    vm_authorized_keys = base64decode(var.base64_vm_authorized_keys)
+    vm_count            = var.control_plane_node_count
+    vm_disk_storage     = var.vm_disk_storage
+    vm_os_disk_size_gb  = var.vm_os_disk_size_gb
+    vm_memory_mb        = var.vm_memory_mb
+    vm_cpus             = var.vm_cpus
+    vm_authorized_keys  = base64decode(var.base64_vm_authorized_keys)
+    vm_net_dhcp_enabled = var.vm_net_dhcp_enabled
+    vm_net_bridge       = var.vm_net_bridge
+    vm_net_cidr         = var.vm_net_cidr
   }
 
   worker = {
-    vm_count           = var.worker_node_count
-    vm_disk_storage    = var.vm_disk_storage
-    vm_os_disk_size_gb = var.vm_os_disk_size_gb
-    vm_memory_mb       = var.vm_memory_mb
-    vm_cpus            = var.vm_cpus
-    vm_authorized_keys = base64decode(var.base64_vm_authorized_keys)
+    vm_count            = var.worker_node_count
+    vm_disk_storage     = var.vm_disk_storage
+    vm_os_disk_size_gb  = var.vm_os_disk_size_gb
+    vm_memory_mb        = var.vm_memory_mb
+    vm_cpus             = var.vm_cpus
+    vm_authorized_keys  = base64decode(var.base64_vm_authorized_keys)
+    vm_net_dhcp_enabled = var.vm_net_dhcp_enabled
+    vm_net_bridge       = var.vm_net_bridge
+    vm_net_cidr         = var.vm_net_cidr
   }
 }
 
