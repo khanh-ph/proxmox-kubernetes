@@ -42,15 +42,12 @@ k8s:
 	$(ks_img) bash -c \
 	"ansible-playbook -i /inventory/sample/inventory.ini -u ubuntu -become cluster.yml"
 
-cluster: infra k8s kubectl clean
+cluster: infra k8s clean
 
 clean: $(needs_cleanup:%=%/clean)
 
 %/clean:
 	@sudo rm -rf $*
-
-kubectl:
-	@./configure_kubectl.sh
 
 .PHONY: fmt init test plan destroy infra k8s cluster clean kubectl
 .PHONY: %/fmt %/fmt_check %/clean
