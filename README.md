@@ -1,8 +1,8 @@
 ## About the project
 
-An Infrastructure as Code (IaC) project to build up a bare metal Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray).
+An Infrastructure as Code (IaC) project to create a Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray).
 
-![Bare metal Kubernetes](baremetal-kubernetes.png)
+![Proxmox Kubernetes clusters](proxmox-kubernetes.png)
 
 ## Terminology
 
@@ -27,8 +27,8 @@ Throughout the guide, the term `deployment agent` is used to mean the machine wh
 
     ```sh
     # Clone the repo
-    git clone https://github.com/khanh-ph/baremetal-kubernetes.git
-    cd baremetal-kubernetes
+    git clone https://github.com/khanh-ph/proxmox-kubernetes.git
+    cd proxmox-kubernetes
     ```
 
 3. Set up the required environment variables:
@@ -76,7 +76,7 @@ Throughout the guide, the term `deployment agent` is used to mean the machine wh
 
 4. Once the deployment is complete, it's time to try `kubectl`:
     ```sh
-    ssh IP_OF_THE_CONTROL_PLANE_NODE
+    ssh CONTROL_PLANE_IP
     sudo kubectl get all -A
     ```
 
