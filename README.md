@@ -74,18 +74,11 @@ Throughout the guide, the term `deployment agent` is used to mean the machine wh
     make cluster
     ```
 
-#### Kubectl
-
-When you added the SSH public key of the machine where the deployment is triggered into `TF_VAR_base64_vm_authorized_keys`, the kubeconfig file on the master node would be copied to the machine automatically. You can access the cluster right away:
-```sh
-kubectl get all
-```
-To access the cluster from another machine, try the following command:
-```sh
-git clone https://github.com/khanh-ph/baremetal-kubernetes.git
-cd baremetal-kubernetes
-make kubectl
-```
+4. Once the deployment is complete, it's time to try `kubectl`:
+    ```sh
+    ssh IP_OF_THE_CONTROL_PLANE_NODE
+    sudo kubectl get all -A
+    ```
 
 #### Configurations
 
