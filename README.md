@@ -109,9 +109,9 @@ Below is the list of available options:
 
 ##### Deploy Kubernetes cluster on a private network
 
-* TF_VAR_vm_net_dhcp_enabled
+* TF_VAR_vm_net_use_dhcp
 * TF_VAR_vm_net_bridge
 * TF_VAR_vm_net_cidr
-* TF_VAR_bastion_host_ssh_ip
-* TF_VAR_bastion_host_ssh_user
-* TF_VAR_bastion_host_ssh_port
+* TF_VAR_bastion_ssh_ip
+* TF_VAR_bastion_ssh_user
+* TF_VAR_bastion_ssh_port

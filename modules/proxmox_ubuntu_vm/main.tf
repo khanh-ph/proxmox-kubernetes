@@ -43,7 +43,7 @@ resource "proxmox_vm_qemu" "vm" {
     bridge = var.vm_net_bridge
   }
 
-  ipconfig0 = var.vm_net_dhcp_enabled == true ? "ip=dhcp" : "ip=${cidrhost(var.vm_net_cidr, var.vm_net_hostnum_start + count.index + 1)}/${split("/", var.vm_net_cidr)[1]},gw=${cidrhost(var.vm_net_cidr, 1)}"
+  ipconfig0 = var.vm_net_use_dhcp == true ? "ip=dhcp" : "ip=${cidrhost(var.vm_net_cidr, var.vm_net_hostnum_start + count.index + 1)}/${split("/", var.vm_net_cidr)[1]},gw=${cidrhost(var.vm_net_cidr, 1)}"
 
   ciuser  = var.vm_user
   sshkeys = <<EOF

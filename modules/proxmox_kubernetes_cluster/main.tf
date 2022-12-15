@@ -15,7 +15,7 @@ module "promox_kubernetes_worker" {
   vm_cpus              = var.worker.vm_cpus
   vm_os_disk_size_gb   = var.worker.vm_os_disk_size_gb
   vm_authorized_keys   = var.worker.vm_authorized_keys
-  vm_net_dhcp_enabled  = var.worker.vm_net_dhcp_enabled
+  vm_net_use_dhcp      = var.worker.vm_net_use_dhcp
   vm_net_bridge        = var.worker.vm_net_bridge
   vm_net_cidr          = var.worker.vm_net_cidr
   vm_net_hostnum_start = 20
@@ -38,7 +38,7 @@ module "promox_kubernetes_control_plane" {
   vm_cpus              = var.control_plane.vm_cpus
   vm_os_disk_size_gb   = var.control_plane.vm_os_disk_size_gb
   vm_authorized_keys   = var.control_plane.vm_authorized_keys
-  vm_net_dhcp_enabled  = var.control_plane.vm_net_dhcp_enabled
+  vm_net_use_dhcp      = var.control_plane.vm_net_use_dhcp
   vm_net_bridge        = var.control_plane.vm_net_bridge
   vm_net_cidr          = var.control_plane.vm_net_cidr
   vm_net_hostnum_start = 10

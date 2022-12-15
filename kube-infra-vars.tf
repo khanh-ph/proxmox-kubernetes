@@ -58,7 +58,7 @@ variable "base64_vm_authorized_keys" {
   default     = ""
 }
 
-variable "vm_net_dhcp_enabled" {
+variable "vm_net_use_dhcp" {
   type        = bool
   description = "use DHCP for all VMs IP"
   default     = true
