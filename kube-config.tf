@@ -4,7 +4,7 @@ resource "local_file" "inventory" {
     {
       control_plane_ips = "${join("\n", [for hostname, ip in module.infrastructure.control_planes : join("", [hostname, " ansible_ssh_host=${ip}", " ansible_connection=ssh"])])}"
       worker_ips        = "${join("\n", [for hostname, ip in module.infrastructure.workers : join("", [hostname, " ansible_ssh_host=${ip}", " ansible_connection=ssh"])])}"
-      bastion           = var.bastion_host_ssh_ip != "" ? "[bastion]\nbastion ansible_host=${var.bastion_host_ssh_ip} ansible_port=${var.bastion_host_ssh_port} ansible_user=${var.bastion_host_ssh_user}" : ""
+      bastion           = var.bastion_ssh_ip != "" ? "[bastion]\nbastion ansible_host=${var.bastion_ssh_ip} ansible_port=${var.bastion_ssh_port} ansible_user=${var.bastion_ssh_user}" : ""
     }
   )
   filename = "${var.ks_tmp}/inventory.ini"

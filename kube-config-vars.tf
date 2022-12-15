@@ -53,19 +53,19 @@ variable "base64_ansible_private_key" {
   description = "The ansible private key for SSH based authentication in base64"
 }
 
-variable "bastion_host_ssh_ip" {
+variable "bastion_ssh_ip" {
   type        = string
   description = "IP of the bastion host. It could be either a public IP or an internal IP that the deployment agent can reach to."
   default     = ""
 }
 
-variable "bastion_host_ssh_user" {
+variable "bastion_ssh_user" {
   type        = string
   description = "Username of the bastion host"
   default     = "ubuntu"
 }
 
-variable "bastion_host_ssh_port" {
+variable "bastion_ssh_port" {
   type        = number
   description = "SSH port of the bastion host"
   default     = 22
