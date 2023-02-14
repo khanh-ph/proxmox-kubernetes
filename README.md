@@ -115,3 +115,7 @@ Below is the list of available options:
 * TF_VAR_bastion_ssh_ip
 * TF_VAR_bastion_ssh_user
 * TF_VAR_bastion_ssh_port
+
+## Blog posts
+
+* [Create a Kubernetes cluster on Proxmox using Terraform and Kubespray](https://www.khanhpham.cloud/create-a-kubernetes-cluster-on-proxmox-using-terraform-and-kubespray/)
