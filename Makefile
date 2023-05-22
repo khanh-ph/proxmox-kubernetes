@@ -40,7 +40,7 @@ k8s:
 	--mount type=bind,source="${ks_tmp_abspath}/k8s-cluster.yml",dst=/inventory/sample/group_vars/k8s_cluster/addons.yml \
 	--mount type=bind,source="${ks_tmp_abspath}/id_rsa",dst=/root/.ssh/id_rsa \
 	$(ks_img) bash -c \
-	"ansible-playbook -i /inventory/sample/inventory.ini -u ubuntu -become cluster.yml"
+	"export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i /inventory/sample/inventory.ini -u ubuntu -become cluster.yml"
 
 cluster: infra k8s clean
 
