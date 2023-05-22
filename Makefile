@@ -1,4 +1,4 @@
-ks_img ?= quay.io/kubespray/kubespray:v2.21.0
+ks_img ?= khanhphhub/kubespray:08467a
 ks_tmp = kubespray/tmp
 ks_tmp_abspath= $(abspath $(ks_tmp))
 modules := $(wildcard modules/*)
