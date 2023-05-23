@@ -118,4 +118,4 @@ Below is the list of available options:
 
 ## Blog posts
 
-* [Create a Kubernetes cluster on Proxmox using Terraform and Kubespray](https://www.khanhph.com/create-a-kubernetes-cluster-on-proxmox-using-terraform-and-kubespray/)
+* [Create a Kubernetes cluster on Proxmox using Terraform and Kubespray](https://www.khanhph.com/install-proxmox-kubernetes/)
