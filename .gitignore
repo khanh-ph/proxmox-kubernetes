@@ -11,3 +11,4 @@ tmp
 Icon*
 .DS_Store
 *.ini
+.env*
