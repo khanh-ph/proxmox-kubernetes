@@ -1,4 +1,4 @@
-ks_img ?= khanhphhub/kubespray:08467a
+ks_img ?= khanhphhub/kubespray:v2.22.0
 ks_tmp = kubespray/tmp
 ks_tmp_abspath= $(abspath $(ks_tmp))
 modules := $(wildcard modules/*)
@@ -40,7 +40,7 @@ k8s:
 	--mount type=bind,source="${ks_tmp_abspath}/k8s-cluster.yml",dst=/inventory/sample/group_vars/k8s_cluster/addons.yml \
 	--mount type=bind,source="${ks_tmp_abspath}/id_rsa",dst=/root/.ssh/id_rsa \
 	$(ks_img) bash -c \
-	"export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i /inventory/sample/inventory.ini -u ubuntu -become cluster.yml"
+	"ansible-playbook -i /inventory/sample/inventory.ini -u ubuntu -become cluster.yml"
 
 cluster: infra k8s clean
 
