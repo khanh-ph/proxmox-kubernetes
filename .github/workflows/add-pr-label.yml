@@ -27,12 +27,6 @@ jobs:
       if: ${{ startsWith(github.head_ref, 'bugfix/') }}
       with:
         labels: bugfix
-
-    - name: Add `breaking-change` label
-      uses: actions-ecosystem/action-add-labels@v1
-      if: ${{ startsWith(github.head_ref, 'breakingchange/') }}
-      with:
-        labels: breaking-change
     
     - name: Add `documentation` label
       uses: actions-ecosystem/action-add-labels@v1

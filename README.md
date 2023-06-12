@@ -86,13 +86,25 @@ Environment variables in the format `TF_VAR_name` can be used to set Terraform v
 
 Below is the list of available options:
 
-##### Scaling
+##### Scaling 
+
+###### Scaling out/in
 
 * TF_VAR_control_plane_node_count
 * TF_VAR_worker_node_count
-* TF_VAR_vm_os_disk_size_gb
+
+###### Scaling up/down CPU (hotplug)
+
+* TF_VAR_vm_vcpus
+
+###### Scaling up Memory (hotplug)
+
 * TF_VAR_vm_memory_mb
-* TF_VAR_vm_cpus
+
+###### Known limitations 
+
+Scaling down memory during runtime (hot unplug) is not supported. VM reboot is required if you want to reduce its memory size.
+
 
 ##### Kubernetes configurations
 
@@ -109,9 +121,8 @@ Below is the list of available options:
 
 ##### Deploy Kubernetes cluster on a private network
 
-* TF_VAR_vm_net_use_dhcp
-* TF_VAR_vm_net_bridge
-* TF_VAR_vm_net_cidr
+* TF_VAR_vm_internal_net_name
+* TF_VAR_vm_internal_net_subnet_cidr
 * TF_VAR_bastion_ssh_ip
 * TF_VAR_bastion_ssh_user
 * TF_VAR_bastion_ssh_port

@@ -1,74 +1,65 @@
-variable "pm_api_url" {
+variable "pm_host" {
   type        = string
-  description = "URL of proxmox API server; e.g https://proxmox.yourdomain.com/api2/json"
+  description = "The name of Proxmox node where the VM is placed."
 }
 
-variable "pm_api_token_id" {
+variable "vm_name_prefix" {
   type        = string
-  description = "Proxmox API token ID"
+  description = "VM prefix name"
+  default     = "vm"
 }
 
-variable "pm_api_token_secret" {
-  type        = string
-  description = "Proxmox API token secret"
+variable "node_count" {
+  type        = number
+  description = ""
 }
 
-variable "pm_tls_insecure" {
+variable "vm_tags" {
+  type    = string
+  default = ""
+}
+
+variable "vm_net_name" {
+  type        = string
+  description = ""
+}
+
+variable "vm_net_subnet_cidr" {
+  type        = string
+  description = "Address prefix for the internal network"
+}
+
+variable "ssh_public_keys" {
+  type        = string
+  description = "SSH public keys in base64."
+}
+
+variable "vm_onboot" {
   type        = bool
-  description = "Set to true to bypass TLS certificate verification of your Promox API server URL"
+  description = "Start the VM right after Proxmox host starts"
   default     = true
 }
 
-variable "pm_host" {
-  type        = string
-  description = "Name of the host server in Proxmox data center where the VM will be hosted"
-}
-
-variable "template_name" {
-  type        = string
-  description = "Name of cloud-init ubuntu template on Proxmox"
-  default     = "ubuntu-2204"
-}
-
-variable "prefix" {
-  type        = string
-  description = "Prefix for the vm name"
-}
-
 variable "vm_user" {
-  type        = string
-  description = "Default admin username"
-  default     = "ubuntu"
+  type    = string
+  default = "ubuntu"
 }
 
-variable "vm_authorized_keys" {
-  type        = string
-  description = "SSH public key of the Jump host"
-  default     = ""
+variable "vm_sockets" {
+  type    = number
+  default = 1
 }
 
-variable "vm_count" {
+variable "vm_max_vcpus" {
   type        = number
-  description = "Number of virtual machines to be created"
-  default     = 1
+  description = "The maximum CPU cores available per CPU socket to allocate to the VM."
+  default     = 2
 }
 
-variable "vm_disk_storage" {
-  type        = string
-  description = "Storage type; e.g: local-lvm or local-zfs"
-  default     = "local-zfs"
-}
-
-variable "vm_os_disk_size_gb" {
+variable "vm_vcpus" {
   type        = number
-  description = "Root disk size in GB; e.g: 10"
-  default     = 10
-}
-
-variable "vm_cpus" {
-  type        = number
-  description = "No of CPU cores; e.g: 1"
-  default     = 1
+  description = "The number of CPU cores to allocate to the VM. This should be less or equal to vm_max_vcpus."
+  default     = 2
 }
 
 variable "vm_cpu_type" {
@@ -79,42 +70,36 @@ variable "vm_cpu_type" {
 
 variable "vm_memory_mb" {
   type        = number
-  description = "VM memory in MB; e.g: 1024"
-  default     = 1024
+  description = "The size of VM memory in MB"
+  default     = 2048
 }
 
-variable "vm_onboot" {
-  type        = bool
-  description = "Start the VM right after Proxmox host starts"
-  default     = true
-}
-
-variable "vm_socket" {
+variable "vm_os_disk_size_gb" {
   type        = number
-  description = "The number of CPU sockets to allocate to the VM"
-  default     = 1
+  description = "The size of VM OS disk in Gigabyte"
+  default     = 20
 }
 
-variable "vm_net_use_dhcp" {
-  type        = bool
-  description = "use DHCP for all VMs IP"
-  default     = true
-}
-
-variable "vm_net_bridge" {
+variable "vm_os_disk_storage" {
   type        = string
-  description = "Linux bridge name where the VM is attached to"
-  default     = "vmbr0"
+  description = "Default storage pool where OS VM disk is placed."
 }
 
-variable "vm_net_cidr" {
+variable "vm_ubuntu_tmpl_name" {
   type        = string
-  description = "CIDR of vm_net_bridge"
-  default     = ""
+  description = "Name of Cloud-init template Ubuntu VM."
+  default     = "ubuntu-2204"
 }
 
-variable "vm_net_hostnum_start" {
-  type        = string
-  description = "hostnum to calculate VM IP from CIDR"
-  default     = 2
+variable "vm_host_number" {
+  type        = number
+  description = "The host number of the VM in the subnet"
+}
+
+#
+# Local vars
+# 
+locals {
+  vm_net_subnet_mask = "/${split("/", var.vm_net_subnet_cidr)[1]}"
+  vm_net_default_gw  = cidrhost(var.vm_net_subnet_cidr, 1)
 }

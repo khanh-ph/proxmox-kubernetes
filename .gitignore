@@ -2,7 +2,6 @@
 .terraform
 *.tfstate
 *.tfstate.*
-*.tfvars
 *.tfplan
 cloud.tf
 tmp
@@ -10,5 +9,4 @@ tmp
 # OS files
 Icon*
 .DS_Store
-*.ini
 .env*
