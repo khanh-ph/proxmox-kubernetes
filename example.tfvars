@@ -7,6 +7,7 @@ env_name = "demo"
 # Proxmox VE
 ########################################################################
 ## Specify Proxmox VE API URL, token details, and Proxmox host where VM will be hosted.
+## If you've not created an API token, please refer to this guide: https://registry.terraform.io/providers/Telmate/proxmox/2.9.14/docs
 pm_api_url          = "https://your-proxmox-url/api"
 pm_api_token_id     = "your-api-token-id"
 pm_api_token_secret = "your-api-token-secret"
@@ -42,6 +43,16 @@ ssh_private_key = "put-base64-encoded-private-key-here"
 # Replace `2` with the maximum cores that your Proxmox VE server can give to a VM.
 vm_max_vcpus = 2
 # Specify the VM specifications for the Kubernetes control plane.
-vm_k8s_control_plane = "{ node_count = 1, vcpus = 2, memory = 2048, disk_size = 20 }"
+vm_k8s_control_plane = {
+  node_count = 1
+  vcpus      = 2
+  memory     = 2048
+  disk_size  = 20
+}
 # Specify the VM specifications for the Kubernetes worker nodes.
-vm_k8s_worker = "{ node_count = 3, vcpus = 2, memory = 3072, disk_size = 20 }"
+vm_k8s_worker = {
+  node_count = 3
+  vcpus      = 2
+  memory     = 3072
+  disk_size  = 20
+}
