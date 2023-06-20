@@ -44,8 +44,8 @@ variable "internal_net_name" {
 
 variable "internal_net_subnet_cidr" {
   type        = string
-  description = "CIDR of the internal network."
-  default     = "vmbr1"
+  description = "CIDR of the internal network. For example: 10.0.1.0/24"
+  default     = ""
 }
 
 variable "ssh_private_key" {

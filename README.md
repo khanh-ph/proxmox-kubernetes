@@ -12,7 +12,8 @@ Ensure the following software versions are installed:
 
 * [Proxmox VE](https://www.proxmox.com/en/proxmox-ve/get-started/) `>=7.3.3`
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli/) `>=1.3.3`
-* [Kubespray](https://github.com/kubernetes-sigs/kubespray) `>=2.20.0`
+
+> Kubespray has been set up automatically.
 
 ### System requirements
 
