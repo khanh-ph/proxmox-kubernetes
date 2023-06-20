@@ -4,58 +4,55 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "2.9.11"
+      version = "2.9.14"
     }
   }
 }
 
-provider "proxmox" {
-  pm_api_url          = var.pm_api_url
-  pm_api_token_id     = var.pm_api_token_id
-  pm_api_token_secret = var.pm_api_token_secret
-  pm_tls_insecure     = var.pm_tls_insecure
-}
-
-resource "proxmox_vm_qemu" "vm" {
-  count       = var.vm_count
-  target_node = var.pm_host
-  clone       = var.template_name
-  name        = "${var.prefix}-${format("%04d", count.index)}"
-  agent       = 1
-  onboot      = var.vm_onboot
-  os_type     = "cloud-init"
-  cores       = var.vm_cpus
-  sockets     = var.vm_socket
-  cpu         = var.vm_cpu_type
-  memory      = var.vm_memory_mb
-  scsihw      = "virtio-scsi-pci"
-  bootdisk    = "scsi0"
+resource "proxmox_vm_qemu" "ubuntu_vm" {
+  count            = var.node_count
+  target_node      = var.pm_host
+  clone            = var.vm_ubuntu_tmpl_name
+  qemu_os          = "l26"
+  name             = "${var.vm_name_prefix}-${format("%02d", count.index)}"
+  agent            = 1
+  onboot           = var.vm_onboot
+  os_type          = "cloud-init"
+  cores            = var.vm_max_vcpus
+  vcpus            = var.vm_vcpus
+  sockets          = var.vm_sockets
+  cpu              = var.vm_cpu_type
+  memory           = var.vm_memory_mb
+  bootdisk         = "virtio0"
+  scsihw           = "virtio-scsi-single"
+  hotplug          = "network,disk,usb,memory,cpu"
+  numa             = true
+  automatic_reboot = false
+  desc             = "This VM is managed by Terraform, cloned from an Cloud-init Ubuntu image, configured with an internal network and supports CPU hotplug/hot unplug and memory hotplug capabilities."
+  tags             = var.vm_tags
 
   disk {
-    slot    = 0
-    type    = "scsi"
-    storage = var.vm_disk_storage
-    size    = "${var.vm_os_disk_size_gb}G"
+    slot     = 0
+    type     = "virtio"
+    storage  = var.vm_os_disk_storage
+    size     = "${var.vm_os_disk_size_gb}G"
+    iothread = 1
   }
 
   network {
     model  = "virtio"
-    bridge = var.vm_net_bridge
+    bridge = var.vm_net_name
   }
 
-  ipconfig0 = var.vm_net_use_dhcp == true ? "ip=dhcp" : "ip=${cidrhost(var.vm_net_cidr, var.vm_net_hostnum_start + count.index + 1)}/${split("/", var.vm_net_cidr)[1]},gw=${cidrhost(var.vm_net_cidr, 1)}"
+  ipconfig0 = "ip=${cidrhost(var.vm_net_subnet_cidr, var.vm_host_number + count.index)}${local.vm_net_subnet_mask},gw=${local.vm_net_default_gw}"
 
   ciuser  = var.vm_user
-  sshkeys = <<EOF
-  ${var.vm_authorized_keys}
-  EOF
+  sshkeys = base64decode(var.ssh_public_keys)
 
-  # lifecycle {
-  #   ignore_changes = [
-  #     ciuser,
-  #     sshkeys,
-  #     disk.
-  #     network
-  #   ]
-  # }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
 }

@@ -35,4 +35,3 @@ jobs:
         base: master
         head: ${{ env.BRANCH }}
         title: Release version ${{ env.VERSION }}
- 

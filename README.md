@@ -1,121 +1,97 @@
 ## About the project
 
-An Infrastructure as Code (IaC) project to create a Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray).
+This project allows you to create a Kubernetes cluster on [Proxmox VE](https://pve.proxmox.com/wiki/Main_Page) using [Terraform](https://www.terraform.io/) and [Kubespray](https://github.com/kubernetes-sigs/kubespray) in a declarative manner.
 
 ![Proxmox Kubernetes clusters](proxmox-kubernetes.png)
 
-## Terminology
+## Prerequisites
 
-Throughout the guide, the term `deployment agent` is used to mean the machine where we trigger the deployment. It could be your local machine or any CI/CD agent (Jenkins agent, Octopus Deploy worker, etc).
+### Software requirements
 
-## Getting started
+Ensure the following software versions are installed:
 
-### Prerequisites
+* [Proxmox VE](https://www.proxmox.com/en/proxmox-ve/get-started/) `>=7.3.3`
+* [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli/) `>=1.3.3`
+* [Kubespray](https://github.com/kubernetes-sigs/kubespray) `>=2.20.0`
 
-* Virtualization management:
-    * Proxmox Virtual Environment `>=7.3.3`
-    * An Ubuntu 22.04 VM template on Proxmox VE. You may need to create one following [the instruction on how to create an Ubuntu VM template on Proxmox](https://github.com/khanh-ph/proxmox-scripts/tree/master/create-vm-template).
+### System requirements
 
-* Deployment agent:
-    * Terraform `>=1.3.3`
-    * GNU Make
-    * Docker (for Linux)
+Before proceeding with the setup for Proxmox VE, make sure you have the following components in place:
+
+* Internal network
+* VM template
+* SSH key pair
+* Bastion host
 
 ### Usage
+
+Follow these steps to use the project:
 
 1. Clone the repo:
 
     ```sh
-    # Clone the repo
-    git clone https://github.com/khanh-ph/proxmox-kubernetes.git
-    cd proxmox-kubernetes
+    $ git clone https://github.com/khanh-ph/proxmox-kubernetes.git
     ```
 
-3. Set up the required environment variables:
+2. Open the `example.tfvars` file in a text editor and update all the mandatory variables with your own values.
+
+3. Initialize the Terraform working directory.
+
     ```sh
-    # Set parallelism=1 while running terraform apply. 
-    # This is to prevent errors on Proxmox concurrent operations.
-    export TF_CLI_ARGS_apply="-parallelism=1"
-
-    # Your Proxmox API URL. For e.g: https://PROXMOX_IP_ADDRESS:8006/api2/json
-    export TF_VAR_pm_api_url=PROXMOX_API_URL
-
-    # Your Proxmox API Token ID and Secret.
-    export TF_VAR_pm_api_token_id=PROXMOX_API_TOKEN_ID
-    export TF_VAR_pm_api_token_secret=PROXMOX_API_TOKEN_SECRET
-
-    # Specify whether you want to disable the TLS verification while connecting to your Proxmox API server. 
-    # In the local/private network for test/dev environment, `true` is just fine.
-    # Before setting it to `false`, you need to have TLS termination configured somewhere in front of your Proxmox API server.
-    # Another the option the keep the connection from client to Proxmox API server secured is to import the Proxmox CA cert to your client.
-    export TF_VAR_pm_tls_insecure=true
-
-    # Your Proxmox node hostname where the Guest VM will be placed
-    export TF_VAR_pm_host=PROXMOX_NODE_HOSTNAME
-
-    # Your Proxmox storage ID where the Guest VM disks will be allocated; E.g: local-zfs, local-lvm
-    export TF_VAR_vm_disk_storage=PROXMOX_STORAGE_ID
-
-    # The SSH public keys for SSH key-based authentication to all cluster VMs. 
-    # You are free to generate your key-pairs, encode the SSH public keys with base64 then put it here.
-    # On local machine, you may simply use the public key of the current user as following:
-    export TF_VAR_base64_vm_authorized_keys=$(cat ~/.ssh/id_rsa.pub | base64)
-
-    # The SSH private key used by Ansible (Kubespray) for SSH key-based authentication.
-    # You are free to generate your key-pair, encode the private key with base64 then put it here. 
-    # Important: this private key should be in the same key-pair with at least 
-    # one of the public keys specified in `TF_VAR_base64_vm_authorized_keys`.
-    # On local machine, you may simply use the private key of the current user as following:
-    export TF_VAR_base64_ansible_private_key=$(cat ~/.ssh/id_rsa | base64)`
+    $ terraform init
     ```
 
-3. Start the deployment:
+4. Generate execution plan and review the output to ensure that the planned changes align with your expectations.
+
     ```sh
-    make cluster
+    $ terraform plan -var-file="example.tfvars"
     ```
 
-4. Once the deployment is complete, it's time to try `kubectl`:
+5. If you're satisfy with the plan and ready to apply the changes. Run the following command:
+
     ```sh
-    ssh CONTROL_PLANE_IP
-    sudo kubectl get all -A
+    $ terraform apply -var-file="example.tfvars"
     ```
 
-#### Configurations
+## Configurations
 
-Environment variables in the format `TF_VAR_name` can be used to set Terraform variables. Please look into `*-vars.tf` files for usage.
+The project provides several Terraform variables that allow you to customize the cluster to suit your needs. Please see the following:
 
-Below is the list of available options:
+### Mandatory variables
 
-##### Scaling
+Below are the mandatory variables:
 
-* TF_VAR_control_plane_node_count
-* TF_VAR_worker_node_count
-* TF_VAR_vm_os_disk_size_gb
-* TF_VAR_vm_memory_mb
-* TF_VAR_vm_cpus
+* `env_name`
+* `pm_api_url`
+* `pm_api_token_id`
+* `pm_api_token_secret`
+* `pm_tls_insecure`
+* `pm_host`
+* `internal_net_name`
+* `internal_net_subnet_cidr`
+* `bastion_ssh_port`
+* `bastion_ssh_ip`
+* `bastion_ssh_user`
+* `ssh_public_keys`
+* `ssh_private_key`
+* `vm_max_vcpus`
+* `vm_k8s_control_plane`
+* `vm_k8s_worker`
 
-##### Kubernetes configurations
+### Kubespray variables (optional)
 
-* TF_VAR_cluster_name
-* TF_VAR_kube_version
-* TF_VAR_kube_network_plugin
-* TF_VAR_enable_nodelocaldns
-* TF_VAR_podsecuritypolicy_enabled
-* TF_VAR_persistent_volumes_enabled
-* TF_VAR_helm_enabled
-* TF_VAR_ingress_nginx_enabled
-* TF_VAR_argocd_enabled
-* TF_VAR_argocd_version
+You may also configure the following optional variables specific to Kubespray:
 
-##### Deploy Kubernetes cluster on a private network
-
-* TF_VAR_vm_net_use_dhcp
-* TF_VAR_vm_net_bridge
-* TF_VAR_vm_net_cidr
-* TF_VAR_bastion_ssh_ip
-* TF_VAR_bastion_ssh_user
-* TF_VAR_bastion_ssh_port
+* `kube_version`
+* `kube_network_plugin`
+* `enable_nodelocaldns`
+* `podsecuritypolicy_enabled`
+* `persistent_volumes_enabled`
+* `helm_enabled`
+* `ingress_nginx_enabled`
+* `argocd_enabled`
+* `argocd_version`
 
 ## Blog posts
 
-* [Create a Kubernetes cluster on Proxmox using Terraform and Kubespray](https://www.khanhph.com/install-proxmox-kubernetes/)
+For more detailed instructions, refer to the following blog post: [Create a Kubernetes cluster on Proxmox with Terraform & Kubespray](https://www.khanhph.com/install-proxmox-kubernetes/)
