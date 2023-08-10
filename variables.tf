@@ -103,6 +103,24 @@ variable "vm_os_disk_storage" {
   description = "Default storage pool where OS VM disk is placed."
 }
 
+variable "add_worker_node_data_disk" {
+  type        = bool
+  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster."
+  default     = false
+}
+
+variable "worker_node_data_disk_storage" {
+  type        = string
+  description = "The storage pool where the data disk is placed."
+  default     = ""
+}
+
+variable "worker_node_data_disk_size" {
+  type        = string
+  description = "The size of worker node data disk in Gigabyte."
+  default     = 10
+}
+
 variable "vm_ubuntu_tmpl_name" {
   type        = string
   description = "Name of Cloud-init template Ubuntu VM."
