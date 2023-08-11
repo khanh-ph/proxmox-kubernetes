@@ -58,12 +58,6 @@ variable "ssh_public_keys" {
   description = "SSH public keys in base64."
 }
 
-variable "vm_onboot" {
-  type        = bool
-  description = "VM should be brought up during host system boot."
-  default     = true
-}
-
 variable "vm_user" {
   type    = string
   default = "ubuntu"
@@ -80,22 +74,10 @@ variable "vm_max_vcpus" {
   default     = 2
 }
 
-variable "vm_vcpus" {
-  type        = number
-  description = "The number of CPU cores to allocate to the VM. This should be less or equal to vm_max_vcpus."
-  default     = 2
-}
-
 variable "vm_cpu_type" {
   type        = string
   description = "The type of CPU to emulate in the Guest"
   default     = "host"
-}
-
-variable "vm_os_disk_size_gb" {
-  type        = number
-  description = "The size of VM OS disk in Gigabyte"
-  default     = 20
 }
 
 variable "vm_os_disk_storage" {
@@ -205,14 +187,6 @@ variable "argocd_version" {
   type        = string
   description = "ArgoCD version"
   default     = "v2.4.12"
-}
-
-#
-# Local vars
-# 
-locals {
-  internal_net_subnet_mask = "/${split("/", var.internal_net_subnet_cidr)[1]}"
-  internal_net_default_gw  = cidrhost(var.internal_net_subnet_cidr, 1)
 }
 
 #
