@@ -39,6 +39,18 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
     iothread = 1
   }
 
+  dynamic "disk" {
+    for_each = var.add_worker_node_data_disk ? [var.worker_node_data_disk_size] : []
+
+    content {
+      slot     = 1
+      type     = "virtio"
+      storage  = var.worker_node_data_disk_storage
+      size     = "${var.worker_node_data_disk_size}G"
+      iothread = 1
+    }
+  }
+
   network {
     model  = "virtio"
     bridge = var.vm_net_name
