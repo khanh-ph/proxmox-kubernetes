@@ -96,6 +96,24 @@ variable "vm_host_number" {
   description = "The host number of the VM in the subnet"
 }
 
+variable "add_worker_node_data_disk" {
+  type        = bool
+  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster."
+  default     = false
+}
+
+variable "worker_node_data_disk_storage" {
+  type        = string
+  description = "The storage pool where the data disk is placed."
+  default     = ""
+}
+
+variable "worker_node_data_disk_size" {
+  type        = string
+  description = "The size of worker node data disk in Gigabyte."
+  default     = 10
+}
+
 #
 # Local vars
 # 
