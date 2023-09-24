@@ -30,6 +30,7 @@ locals {
     {
       kube_version               = var.kube_version
       kube_network_plugin        = var.kube_network_plugin
+      cluster_name               = local.cluster_name
       enable_nodelocaldns        = var.enable_nodelocaldns
       podsecuritypolicy_enabled  = var.podsecuritypolicy_enabled
       persistent_volumes_enabled = var.persistent_volumes_enabled

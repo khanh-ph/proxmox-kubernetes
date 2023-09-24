@@ -40,8 +40,25 @@ variable "pm_timeout" {
 #
 
 variable "env_name" {
-  type    = string
-  default = "test"
+  type        = string
+  description = "The stage of the development lifecycle for the k8s cluster. Example: `prod`, `dev`, `qa`, `stage`, `test`"
+  default     = "test"
+}
+
+variable "location" {
+  type        = string
+  description = "The city or region where the cluster is provisioned"
+  default     = null
+}
+
+variable "cluster_number" {
+  type        = string
+  description = "The instance count for the k8s cluster, to differentiate it from other clusters. Example: `00`, `01`"
+  default     = "00"
+}
+
+locals {
+  cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
 }
 
 #
@@ -50,24 +67,24 @@ variable "env_name" {
 
 variable "internal_net_name" {
   type        = string
-  description = "Name of the internal network bridge."
+  description = "Name of the internal network bridge"
   default     = "vmbr1"
 }
 
 variable "internal_net_subnet_cidr" {
   type        = string
-  description = "CIDR of the internal network. For example: 10.0.1.0/24"
-  default     = ""
+  description = "CIDR of the internal network"
+  default     = "10.0.1.0/24"
 }
 
 variable "ssh_private_key" {
   type        = string
-  description = "SSH private key in base64. Used by Terraform client to connect to the VM after provisioning."
+  description = "SSH private key in base64, will be used by Terraform client to connect to the VM after provisioning"
 }
 
 variable "ssh_public_keys" {
   type        = string
-  description = "SSH public keys in base64."
+  description = "SSH public keys in base64"
 }
 
 variable "vm_user" {
@@ -82,7 +99,7 @@ variable "vm_sockets" {
 
 variable "vm_max_vcpus" {
   type        = number
-  description = "The maximum CPU cores available per CPU socket to allocate to the VM."
+  description = "The maximum CPU cores available per CPU socket to allocate to the VM"
   default     = 2
 }
 
@@ -94,30 +111,30 @@ variable "vm_cpu_type" {
 
 variable "vm_os_disk_storage" {
   type        = string
-  description = "Default storage pool where OS VM disk is placed."
+  description = "Default storage pool where OS VM disk is placed"
 }
 
 variable "add_worker_node_data_disk" {
   type        = bool
-  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster."
+  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster"
   default     = false
 }
 
 variable "worker_node_data_disk_storage" {
   type        = string
-  description = "The storage pool where the data disk is placed."
+  description = "The storage pool where the data disk is placed"
   default     = ""
 }
 
 variable "worker_node_data_disk_size" {
   type        = string
-  description = "The size of worker node data disk in Gigabyte."
+  description = "The size of worker node data disk in Gigabyte"
   default     = 10
 }
 
 variable "vm_ubuntu_tmpl_name" {
   type        = string
-  description = "Name of Cloud-init template Ubuntu VM."
+  description = "Name of Cloud-init template Ubuntu VM"
   default     = "ubuntu-2204"
 }
 
@@ -127,7 +144,7 @@ variable "vm_ubuntu_tmpl_name" {
 
 variable "bastion_ssh_ip" {
   type        = string
-  description = "IP of the bastion host. It could be either public IP or local network IP of the bastion host."
+  description = "IP of the bastion host, could be either public IP or local network IP of the bastion host"
   default     = ""
 }
 
@@ -165,6 +182,7 @@ variable "kube_network_plugin" {
   description = "Choose network plugin (cilium, calico, kube-ovn, weave or flannel. Use cni for generic cni plugin)"
   default     = "calico"
 }
+
 variable "enable_nodelocaldns" {
   type        = bool
   description = "Enable nodelocal dns cache"
