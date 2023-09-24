@@ -23,6 +23,18 @@ variable "pm_host" {
   description = "The name of Proxmox node where the VM is placed."
 }
 
+variable "pm_parallel" {
+  type        = number
+  description = "The number of simultaneous Proxmox processes. E.g: creating resources."
+  default     = 2
+}
+
+variable "pm_timeout" {
+  type        = number
+  description = "Timeout value (seconds) for proxmox API calls."
+  default     = 600
+}
+
 #
 # Environment
 #
