@@ -165,6 +165,11 @@ variable "kube_network_plugin" {
   description = "Choose network plugin (cilium, calico, kube-ovn, weave or flannel. Use cni for generic cni plugin)"
   default     = "calico"
 }
+variable "cluster_name" {
+  type        = string
+  description = "Kubernetes cluster name, also will be used as DNS domain"
+  default     = ""
+}
 variable "enable_nodelocaldns" {
   type        = bool
   description = "Enable nodelocal dns cache"

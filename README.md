@@ -91,6 +91,7 @@ The project provides several Terraform variables that allow you to customize the
 | <a name="input_kubespray_image"></a> [kubespray\_image](#input\_kubespray\_image) | n/a | `string` | `"khanhphhub/kubespray:v2.22.0"` | no |
 | <a name="input_kube_version"></a> [kube\_version](#input\_kube\_version) | Kubernetes version | `string` | `"v1.24.6"` | no |
 | <a name="input_kube_network_plugin"></a> [kube\_network\_plugin](#input\_kube\_network\_plugin) | Choose network plugin (cilium, calico, kube-ovn, weave or flannel. Use cni for generic cni plugin) | `string` | `"calico"` | no |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Kubernetes cluster name, also will be used as DNS domain | `string` | `""` | no |
 | <a name="input_enable_nodelocaldns"></a> [enable\_nodelocaldns](#input\_enable\_nodelocaldns) | Enable nodelocal dns cache | `bool` | `false` | no |
 | <a name="input_podsecuritypolicy_enabled"></a> [podsecuritypolicy\_enabled](#input\_podsecuritypolicy\_enabled) | pod security policy (RBAC must be enabled either by having 'RBAC' in authorization\_modes or kubeadm enabled) | `bool` | `false` | no |
 | <a name="input_persistent_volumes_enabled"></a> [persistent\_volumes\_enabled](#input\_persistent\_volumes\_enabled) | Add Persistent Volumes Storage Class for corresponding cloud provider (supported: in-tree OpenStack, Cinder CSI, AWS EBS CSI, Azure Disk CSI, GCP Persistent Disk CSI) | `bool` | `false` | no |
