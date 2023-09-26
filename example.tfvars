@@ -1,58 +1,74 @@
 # Environment
 ########################################################################
-## Replace `demo` with your desired environment name.
-env_name = "demo"
-
+env_name       = "demo"
+location       = null
+cluster_number = "01"
+cluster_domain = "local"
+# If using this project version >= 4.0.0 with a previously provisioned cluster,
+# check this setting: https://github.com/khanh-ph/proxmox-kubernetes/releases/tag/4.0.0
+use_legacy_naming_convention = false
 
 # Proxmox VE
 ########################################################################
-## Specify Proxmox VE API URL, token details, and Proxmox host where VM will be hosted.
-## If you've not created an API token, please refer to this guide: https://registry.terraform.io/providers/Telmate/proxmox/2.9.14/docs
+# Proxmox VE API details and VM hosting configuration
+# API token guide: https://registry.terraform.io/providers/Telmate/proxmox/2.9.14/docs
 pm_api_url          = "https://your-proxmox-url/api"
 pm_api_token_id     = "your-api-token-id"
 pm_api_token_secret = "your-api-token-secret"
 pm_tls_insecure     = false
 pm_host             = "your-proxmox-host"
+pm_parallel         = 2
+pm_timeout          = 600
 
 
-# Internal Network
+# Common infrastructure configurations
 ########################################################################
-## Replace `vmbr1` with your bridge name dedicated to the Kubernetes internal network.
+# Kubernetes internal network
 internal_net_name = "vmbr1"
-## Replace `10.0.1.0/24` with your internal network address and prefix length.
+# Internal network CIDR
 internal_net_subnet_cidr = "10.0.1.0/24"
-
-
-# Bastion Host
-########################################################################
-## Replace `192.168.1.131` with LAN IP/ public IP address of your bastion host.
-bastion_ssh_port = 22
-bastion_ssh_ip   = "192.168.1.131"
-bastion_ssh_user = "ubuntu"
-
-
-# SSH
-########################################################################
-## Specify base64 encoding of SSH keys for Kubernetes admin authentication.
+# Base64 encoded keys for Kubernetes admin authentication
 ssh_public_keys = "put-base64-encoded-public-keys-here"
+# Caution: In production, follow https://developer.hashicorp.com/terraform/tutorials/configuration-language/sensitive-variables
+# to protect the sensitive variable `ssh_private_key` 
 ssh_private_key = "put-base64-encoded-private-key-here"
 
+# Default disk storage for the VMs. Uncomment the following line if needed
+# vm_os_disk_storage = "local-lvm"
+
+# Bastion host details. This is required for the Terraform client to 
+# connect to the Kubespray VM that will be placed into the internet network
+bastion_ssh_ip   = "192.168.1.131"
+bastion_ssh_user = "ubuntu"
+bastion_ssh_port = 22
 
 # VM specifications
 ########################################################################
-# Replace `2` with the maximum cores that your Proxmox VE server can give to a VM.
+# Maximum cores that your Proxmox VE server can give to a VM
 vm_max_vcpus = 2
-# Specify the VM specifications for the Kubernetes control plane.
+# Control plane VM specifications
 vm_k8s_control_plane = {
   node_count = 1
   vcpus      = 2
   memory     = 2048
   disk_size  = 20
 }
-# Specify the VM specifications for the Kubernetes worker nodes.
+# Worker nodes VM specifications
 vm_k8s_worker = {
   node_count = 3
   vcpus      = 2
   memory     = 3072
   disk_size  = 20
 }
+
+# Kubernetes settings
+########################################################################
+kube_version               = "v1.24.6"
+kube_network_plugin        = "calico"
+enable_nodelocaldns        = false
+podsecuritypolicy_enabled  = false
+persistent_volumes_enabled = false
+helm_enabled               = false
+ingress_nginx_enabled      = false
+argocd_enabled             = false
+argocd_version             = "v2.4.12"
