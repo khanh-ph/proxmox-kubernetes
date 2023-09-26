@@ -68,6 +68,8 @@ The project provides several Terraform variables that allow you to customize the
 | <a name="input_pm_api_token_secret"></a> [pm\_api\_token\_secret](#input\_pm\_api\_token\_secret) | The UUID/secret of the token defined in the variable `pm_api_token_id`. | `string` | n/a | yes |
 | <a name="input_pm_tls_insecure"></a> [pm\_tls\_insecure](#input\_pm\_tls\_insecure) | Disable TLS verification while connecting to the Proxmox VE API server. | `bool` | n/a | yes |
 | <a name="input_pm_host"></a> [pm\_host](#input\_pm\_host) | The name of Proxmox node where the VM is placed. | `string` | n/a | yes |
+| <a name="input_pm_parallel"></a> [pm\_parallel](#input\_pm\_parallel) | The number of simultaneous Proxmox processes. E.g: creating resources. | `number` | `2` | no |
+| <a name="input_pm_timeout"></a> [pm\_timeout](#input\_pm\_timeout) | Timeout value (seconds) for proxmox API calls. | `number` | `600` | no |
 | <a name="input_env_name"></a> [env\_name](#input\_env\_name) | n/a | `string` | `"test"` | no |
 | <a name="input_internal_net_name"></a> [internal\_net\_name](#input\_internal\_net\_name) | Name of the internal network bridge. | `string` | `"vmbr1"` | no |
 | <a name="input_internal_net_subnet_cidr"></a> [internal\_net\_subnet\_cidr](#input\_internal\_net\_subnet\_cidr) | CIDR of the internal network. For example: 10.0.1.0/24 | `string` | `""` | no |
