@@ -28,10 +28,23 @@ jobs:
       run: git push origin ${{ env.BRANCH }}
 
     - name: Create a Pull Request
-      uses: thomaseizinger/create-pull-request@1.0.0
+      uses: actions/github-script@v6
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        base: master
-        head: ${{ env.BRANCH }}
-        title: Release version ${{ env.VERSION }}
+        script: |
+          const { owner, repo } = context.repo;
+          const version = process.env.VERSION;
+          const title = 'Release version ' + version;
+          const body = 'Created by GitHub Actions';
+          const base = 'master';
+          const head = process.env.BRANCH;
+
+          github.rest.pulls.create({
+            owner,
+            repo,
+            title,
+            body,
+            base,
+            head
+          });

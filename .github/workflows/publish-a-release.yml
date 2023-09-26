@@ -1,4 +1,5 @@
 name: Publish Release to GitHub
+
 on:
   pull_request:
     branches:
@@ -10,31 +11,56 @@ jobs:
   publish-a-release:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
-
     steps:
-      - name: Extract version from branch name (for release branches)
-        if: startsWith(github.event.pull_request.head.ref, 'release/')
+      - name: Extract version from branch name
         run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          VERSION=${BRANCH_NAME#release/}
-          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Create Release
-        uses: thomaseizinger/create-release@1.0.0
-        env:
+          set -x
+          branchName="${{ github.event.pull_request.head.ref }}"
+          version=${branchName#release/}
+          if [[ "$version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-rc\.([0-9]+))?$ ]]; then
+            echo "TAG=$version" >> $GITHUB_ENV
+          else
+            echo "$version is not a supported semver." >&2
+            exit 1
+          fi 
+      
+      - name: Create Release to GitHub
+        uses: actions/github-script@v6
+        env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
-          tag_name: ${{ env.RELEASE_VERSION }}
-          name: v${{ env.RELEASE_VERSION }}
-          draft: false
-          prerelease: false
+          script: |
+            const { owner, repo } = context.repo;
+            const target_commitish = context.sha;
 
-      - name: Merge master into develop branch (Gitflow)
-        uses: thomaseizinger/create-pull-request@1.0.0
-        env:
+            github.rest.repos.createRelease({
+              owner,
+              repo,
+              tag_name: process.env.TAG,
+              target_commitish,
+              name: `v${process.env.TAG}`,
+              generate_release_notes: true,
+              draft: process.env.TAG.includes('-rc'),
+              prerelease: false
+            });
+
+      - name: Create a PR to merge master back into develop branch
+        uses: actions/github-script@v6
+        env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          head: master
-          base: develop
-          title: Merge master into develop branch (Gitflow)
+          script: |
+            const { owner, repo } = context.repo;
+            const title = `Merge master into develop after publishing release ${process.env.TAG}`;
+            const body = 'Created by GitHub Actions';
+            const base = 'develop';
+            const head = 'master';
+
+            github.rest.pulls.create({
+              owner,
+              repo,
+              title,
+              body,
+              base,
+              head
+            });
