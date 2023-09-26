@@ -114,6 +114,11 @@ variable "worker_node_data_disk_size" {
   default     = 10
 }
 
+variable "use_legacy_naming_convention" {
+  type    = bool
+  default = false
+}
+
 #
 # Local vars
 # 

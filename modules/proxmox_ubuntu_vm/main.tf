@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   target_node      = var.pm_host
   clone            = var.vm_ubuntu_tmpl_name
   qemu_os          = "l26"
-  name             = "${var.vm_name_prefix}-${format("%02d", count.index)}"
+  name             = var.use_legacy_naming_convention ? "${var.vm_name_prefix}-${format("%02d", count.index)}" : "${var.vm_name_prefix}-${format("%02d", count.index + 1)}"
   agent            = 1
   onboot           = var.vm_onboot
   os_type          = "cloud-init"
