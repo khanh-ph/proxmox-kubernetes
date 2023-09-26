@@ -1,6 +1,42 @@
-#
+# Environment
+########################################################################
+variable "env_name" {
+  type        = string
+  description = "The stage of the development lifecycle for the k8s cluster. Example: `prod`, `dev`, `qa`, `stage`, `test`"
+  default     = "test"
+}
+
+variable "location" {
+  type        = string
+  description = "The city or region where the cluster is provisioned"
+  default     = null
+}
+
+variable "cluster_number" {
+  type        = string
+  description = "The instance count for the k8s cluster, to differentiate it from other clusters. Example: `00`, `01`"
+  default     = "01"
+}
+
+variable "cluster_domain" {
+  type        = string
+  description = "The cluster domain name"
+  default     = "local"
+}
+
+locals {
+  cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
+  cluster_fqdn = "${local.cluster_name}.${var.cluster_domain}"
+}
+
+variable "use_legacy_naming_convention" {
+  type        = bool
+  description = "A boolean value that indicates whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
+  default     = false
+}
+
 # Proxmox VE
-#
+########################################################################
 variable "pm_api_url" {
   type        = string
   description = "The base URL for Proxmox VE API. See https://pve.proxmox.com/wiki/Proxmox_VE_API#API_URL"
@@ -35,43 +71,8 @@ variable "pm_timeout" {
   default     = 600
 }
 
-#
-# Environment
-#
-
-variable "env_name" {
-  type        = string
-  description = "The stage of the development lifecycle for the k8s cluster. Example: `prod`, `dev`, `qa`, `stage`, `test`"
-  default     = "test"
-}
-
-variable "location" {
-  type        = string
-  description = "The city or region where the cluster is provisioned"
-  default     = null
-}
-
-variable "cluster_number" {
-  type        = string
-  description = "The instance count for the k8s cluster, to differentiate it from other clusters. Example: `00`, `01`"
-  default     = "01"
-}
-
-variable "cluster_domain" {
-  type        = string
-  description = "The cluster domain name"
-  default     = "local"
-}
-
-locals {
-  cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
-  cluster_fqdn = "${local.cluster_name}.${var.cluster_domain}"
-}
-
-#
 # Common infrastructure
-#
-
+########################################################################
 variable "internal_net_name" {
   type        = string
   description = "Name of the internal network bridge"
@@ -147,10 +148,6 @@ variable "vm_ubuntu_tmpl_name" {
   default     = "ubuntu-2204"
 }
 
-#
-# Bastion host
-#
-
 variable "bastion_ssh_ip" {
   type        = string
   description = "IP of the bastion host, could be either public IP or local network IP of the bastion host"
@@ -169,10 +166,22 @@ variable "bastion_ssh_port" {
   default     = 22
 }
 
-#
-# Kubesray options
-#
+# Kuberentes VM specifications for Kubernetes nodes
+########################################################################
+variable "vm_k8s_control_plane" {
+  type        = object({ node_count = number, vcpus = number, memory = number, disk_size = number })
+  description = "Control Plane VM specification"
+  default     = { node_count = 1, vcpus = 2, memory = 1536, disk_size = 20 }
+}
 
+variable "vm_k8s_worker" {
+  type        = object({ node_count = number, vcpus = number, memory = number, disk_size = number })
+  description = "Worker VM specification"
+  default     = { node_count = 2, vcpus = 2, memory = 2048, disk_size = 20 }
+}
+
+# Kubernetes settings
+########################################################################
 variable "create_kubespray_host" {
   type    = bool
   default = true
@@ -230,26 +239,4 @@ variable "argocd_version" {
   default     = "v2.4.12"
 }
 
-#
-# VM specifications for Kubernetes nodes
-#
-variable "vm_k8s_control_plane" {
-  type        = object({ node_count = number, vcpus = number, memory = number, disk_size = number })
-  description = "Control Plane VM specification"
-  default     = { node_count = 1, vcpus = 2, memory = 1536, disk_size = 20 }
-}
 
-variable "vm_k8s_worker" {
-  type        = object({ node_count = number, vcpus = number, memory = number, disk_size = number })
-  description = "Worker VM specification"
-  default     = { node_count = 2, vcpus = 2, memory = 2048, disk_size = 20 }
-}
-
-#
-# Others
-# 
-variable "use_legacy_naming_convention" {
-  type        = bool
-  description = "A boolean value that indicates whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
-  default     = false
-}
