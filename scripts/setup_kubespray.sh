@@ -32,14 +32,28 @@ wait_for_lock_release() {
 
 wait_for_lock_release
 
-# Install Docker
+# Verify if Docker is installed
 if ! command -v docker &> /dev/null; then
     echo "Docker not found. Installing Docker..."
+    
+    # Download Docker installation script
+    if ! curl -fsSL https://get.docker.com -o get-docker.sh; then
+        echo "Error downloading Docker installation script. Exiting." >&2
+        exit 1
+    fi
+
     # Install Docker
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
-    # Add current user to the docker group
+    if ! sudo sh get-docker.sh; then
+        echo "Error installing Docker. Exiting." >&2
+        exit 1
+    fi
+    
+    # Clean up by removing the Docker installation script
+    rm -f get-docker.sh
+
+    # Add current user to the `docker` group
     sudo usermod -aG docker $USER
+
     echo "Docker installed successfully."
 else
     echo "Docker is already installed."

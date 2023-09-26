@@ -30,6 +30,7 @@ locals {
     {
       kube_version               = var.kube_version
       kube_network_plugin        = var.kube_network_plugin
+      cluster_name               = local.cluster_fqdn
       enable_nodelocaldns        = var.enable_nodelocaldns
       podsecuritypolicy_enabled  = var.podsecuritypolicy_enabled
       persistent_volumes_enabled = var.persistent_volumes_enabled
@@ -52,23 +53,24 @@ locals {
 module "kubespray_host" {
   source = "./modules/proxmox_ubuntu_vm"
 
-  node_count          = var.create_kubespray_host ? 1 : 0
-  pm_host             = var.pm_host
-  vm_ubuntu_tmpl_name = var.vm_ubuntu_tmpl_name
-  vm_name_prefix      = "${var.env_name}-kubespray"
-  vm_max_vcpus        = var.vm_max_vcpus
-  vm_vcpus            = 2
-  vm_sockets          = var.vm_sockets
-  vm_cpu_type         = var.vm_cpu_type
-  vm_memory_mb        = 2048
-  vm_os_disk_storage  = var.vm_os_disk_storage
-  vm_os_disk_size_gb  = 10
-  vm_net_name         = var.internal_net_name
-  vm_net_subnet_cidr  = var.internal_net_subnet_cidr
-  vm_host_number      = 5
-  vm_user             = var.vm_user
-  vm_tags             = "${var.env_name};terraform;kubespray"
-  ssh_public_keys     = var.ssh_public_keys
+  node_count                   = var.create_kubespray_host ? 1 : 0
+  pm_host                      = var.pm_host
+  vm_ubuntu_tmpl_name          = var.vm_ubuntu_tmpl_name
+  vm_name_prefix               = var.use_legacy_naming_convention ? "${var.env_name}-kubespray" : "vm-${local.cluster_name}-kubespray"
+  vm_max_vcpus                 = var.vm_max_vcpus
+  vm_vcpus                     = 2
+  vm_sockets                   = var.vm_sockets
+  vm_cpu_type                  = var.vm_cpu_type
+  vm_memory_mb                 = 2048
+  vm_os_disk_storage           = var.vm_os_disk_storage
+  vm_os_disk_size_gb           = 10
+  vm_net_name                  = var.internal_net_name
+  vm_net_subnet_cidr           = var.internal_net_subnet_cidr
+  vm_host_number               = 5
+  vm_user                      = var.vm_user
+  vm_tags                      = "${var.env_name};terraform;kubespray"
+  ssh_public_keys              = var.ssh_public_keys
+  use_legacy_naming_convention = var.use_legacy_naming_convention
 }
 
 resource "null_resource" "setup_kubespray" {
