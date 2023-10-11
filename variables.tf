@@ -31,7 +31,7 @@ locals {
 
 variable "use_legacy_naming_convention" {
   type        = bool
-  description = "A boolean value that indicates whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
+  description = "Whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
   default     = false
 }
 
@@ -126,7 +126,7 @@ variable "vm_os_disk_storage" {
 
 variable "add_worker_node_data_disk" {
   type        = bool
-  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster"
+  description = "Whether to add a data disk to each worker node of the cluster"
   default     = false
 }
 
@@ -183,13 +183,15 @@ variable "vm_k8s_worker" {
 # Kubernetes settings
 ########################################################################
 variable "create_kubespray_host" {
-  type    = bool
-  default = true
+  type        = bool
+  description = "Whether to provision the Kubespray as a VM"
+  default     = true
 }
 
 variable "kubespray_image" {
-  type    = string
-  default = "khanhphhub/kubespray:v2.22.0"
+  type        = string
+  description = "The Docker image to deploy Kubespray"
+  default     = "khanhphhub/kubespray:v2.22.0"
 }
 
 variable "kube_version" {
@@ -205,32 +207,32 @@ variable "kube_network_plugin" {
 
 variable "enable_nodelocaldns" {
   type        = bool
-  description = "A boolean value that indicates whether to enable nodelocal dns cache on your cluster"
+  description = "Whether to enable nodelocal dns cache on your cluster"
   default     = false
 }
 variable "podsecuritypolicy_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable pod security policy on your cluster (RBAC must be enabled either by having 'RBAC' in authorization_modes or kubeadm enabled)"
+  description = "Whether to enable pod security policy on your cluster (RBAC must be enabled either by having 'RBAC' in authorization_modes or kubeadm enabled)"
   default     = false
 }
 variable "persistent_volumes_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to add Persistent Volumes Storage Class for corresponding cloud provider (supported: in-tree OpenStack, Cinder CSI, AWS EBS CSI, Azure Disk CSI, GCP Persistent Disk CSI)"
+  description = "Whether to add Persistent Volumes Storage Class for corresponding cloud provider (supported: in-tree OpenStack, Cinder CSI, AWS EBS CSI, Azure Disk CSI, GCP Persistent Disk CSI)"
   default     = false
 }
 variable "helm_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable Helm on your cluster"
+  description = "Whether to enable Helm on your cluster"
   default     = false
 }
 variable "ingress_nginx_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable Nginx ingress on your cluster"
+  description = "Whether to enable Nginx ingress on your cluster"
   default     = false
 }
 variable "argocd_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable ArgoCD on your cluster"
+  description = "Whether to enable ArgoCD on your cluster"
   default     = false
 }
 variable "argocd_version" {
