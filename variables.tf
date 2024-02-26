@@ -191,13 +191,13 @@ variable "create_kubespray_host" {
 variable "kubespray_image" {
   type        = string
   description = "The Docker image to deploy Kubespray"
-  default     = "khanhphhub/kubespray:v2.22.0"
+  default     = "quay.io/kubespray/kubespray:v2.23.1"
 }
 
 variable "kube_version" {
   type        = string
   description = "Kubernetes version"
-  default     = "v1.24.6"
+  default     = "v1.27.7"
 }
 variable "kube_network_plugin" {
   type        = string
@@ -238,7 +238,7 @@ variable "argocd_enabled" {
 variable "argocd_version" {
   type        = string
   description = "The ArgoCD version to be installed"
-  default     = "v2.4.12"
+  default     = "v2.9.3"
 }
 
 

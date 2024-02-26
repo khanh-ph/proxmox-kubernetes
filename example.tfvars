@@ -63,7 +63,8 @@ vm_k8s_worker = {
 
 # Kubernetes settings
 ########################################################################
-kube_version               = "v1.24.6"
+kubespray_image            = "quay.io/kubespray/kubespray:v2.23.1"
+kube_version               = "v1.27.7"
 kube_network_plugin        = "calico"
 enable_nodelocaldns        = false
 podsecuritypolicy_enabled  = false
@@ -71,4 +72,4 @@ persistent_volumes_enabled = false
 helm_enabled               = false
 ingress_nginx_enabled      = false
 argocd_enabled             = false
-argocd_version             = "v2.4.12"
+argocd_version             = "v2.9.3"
