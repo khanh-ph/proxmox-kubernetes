@@ -10,7 +10,7 @@ This project allows you to create a Kubernetes cluster on [Proxmox VE](https://p
 
 Ensure the following software versions are installed:
 
-* [Proxmox VE](https://www.proxmox.com/en/proxmox-ve/get-started/) `>=7.3.3`
+* [Proxmox VE](https://www.proxmox.com/en/proxmox-ve/get-started/) `7.x` and `8.0`. (>=8.1 is not supported)
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli/) `>=1.3.3`
 
 > Kubespray will be set up automatically.
