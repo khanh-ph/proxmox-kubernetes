@@ -16,7 +16,7 @@ module "k8s_control_plane_nodes" {
   vm_net_subnet_cidr           = var.internal_net_subnet_cidr
   vm_host_number               = 10
   vm_user                      = var.vm_user
-  vm_tags                      = "${var.env_name};terraform;k8s-control-plane"
+  vm_tags                      = "${var.env_name};terraform;k8s_control_plane"
   ssh_public_keys              = var.ssh_public_keys
   use_legacy_naming_convention = var.use_legacy_naming_convention
 }
@@ -39,7 +39,7 @@ module "k8s_worker_nodes" {
   vm_net_subnet_cidr            = var.internal_net_subnet_cidr
   vm_host_number                = 20
   vm_user                       = var.vm_user
-  vm_tags                       = "${var.env_name};terraform;k8s-worker"
+  vm_tags                       = "${var.env_name};terraform;k8s_worker"
   ssh_public_keys               = var.ssh_public_keys
   add_worker_node_data_disk     = var.add_worker_node_data_disk
   worker_node_data_disk_storage = var.worker_node_data_disk_storage

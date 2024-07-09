@@ -42,6 +42,16 @@ if ! command -v docker &> /dev/null; then
         exit 1
     fi
 
+# Check and add DPkg::Lock::Timeout=600 to apt-get install if not already present
+    if ! grep -q 'apt-get install.*DPkg::Lock::Timeout=600' get-docker.sh; then
+        sed -i 's/apt-get install/apt-get install -o DPkg::Lock::Timeout=600/g' get-docker.sh
+    fi
+
+    # Check and add DPkg::Lock::Timeout=600 to apt-get update if not already present
+    if ! grep -q 'apt-get update.*DPkg::Lock::Timeout=600' get-docker.sh; then
+        sed -i 's/apt-get update/apt-get update -o DPkg::Lock::Timeout=600/g' get-docker.sh
+    fi
+    
     # Install Docker
     if ! sudo sh get-docker.sh; then
         echo "Error installing Docker. Exiting." >&2
