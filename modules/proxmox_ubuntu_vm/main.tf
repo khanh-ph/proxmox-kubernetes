@@ -34,12 +34,12 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   disks {
     virtio {
       virtio0 {
-          disk {
-            size     = "${var.vm_os_disk_size_gb}G"
-            storage  = var.vm_os_disk_storage
-            iothread = true 
-          }
+        disk {
+          size     = "${var.vm_os_disk_size_gb}G"
+          storage  = var.vm_os_disk_storage
+          iothread = true
         }
+      }
 
       dynamic "virtio1" {
         for_each = var.add_worker_node_data_disk ? [var.worker_node_data_disk_size] : []

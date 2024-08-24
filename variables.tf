@@ -87,14 +87,14 @@ variable "internal_net_subnet_cidr" {
 
 variable "ssh_private_key" {
   type        = string
-  description = "SSH private key in base64, will be used by Terraform client to connect to the VM after provisioning"
-  sensitive = false
+  description = "SSH private key in base64, will be used by Terraform client to connect to the Kubespray VM after provisioning. We can set its sensitivity to false; otherwise, the output of the Kubespray script will be hidden."
+  sensitive   = false
 }
 
 variable "ssh_public_keys" {
   type        = string
   description = "SSH public keys in base64"
-  sensitive = false
+  sensitive   = false
 }
 
 variable "vm_user" {
@@ -193,7 +193,7 @@ variable "create_kubespray_host" {
 variable "kubespray_image" {
   type        = string
   description = "The Docker image to deploy Kubespray"
-  default = "quay.io/kubespray/kubespray:v2.25.0"
+  default     = "quay.io/kubespray/kubespray:v2.25.0"
 }
 
 variable "kube_version" {
