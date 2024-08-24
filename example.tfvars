@@ -11,7 +11,7 @@ use_legacy_naming_convention = false
 # Proxmox VE
 ########################################################################
 # Proxmox VE API details and VM hosting configuration
-# API token guide: https://registry.terraform.io/providers/Telmate/proxmox/2.9.14/docs
+# API token guide: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
 pm_api_url          = "https://your-proxmox-url/api"
 pm_api_token_id     = "your-api-token-id"
 pm_api_token_secret = "your-api-token-secret"
@@ -63,7 +63,7 @@ vm_k8s_worker = {
 
 # Kubernetes settings
 ########################################################################
-kube_version               = "v1.24.6"
+kube_version               = "v1.29.5"
 kube_network_plugin        = "calico"
 enable_nodelocaldns        = false
 podsecuritypolicy_enabled  = false
@@ -71,4 +71,4 @@ persistent_volumes_enabled = false
 helm_enabled               = false
 ingress_nginx_enabled      = false
 argocd_enabled             = false
-argocd_version             = "v2.4.12"
+argocd_version             = "v2.11.4"

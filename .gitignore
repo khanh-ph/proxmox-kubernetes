@@ -5,8 +5,13 @@
 *.tfplan
 cloud.tf
 tmp
+*.tfvars
+
+# Exclude example.tfvars from being ignored
+!example.tfvars
 
 # OS files
 Icon*
 .DS_Store
 .env*
+

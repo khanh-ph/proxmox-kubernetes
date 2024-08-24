@@ -88,7 +88,7 @@ variable "vm_os_disk_storage" {
 variable "vm_ubuntu_tmpl_name" {
   type        = string
   description = "Name of Cloud-init template Ubuntu VM."
-  default     = "ubuntu-2204"
+  default     = "ubuntu-2404"
 }
 
 variable "vm_host_number" {

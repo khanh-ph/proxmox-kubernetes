@@ -80,7 +80,7 @@ resource "null_resource" "setup_kubespray" {
   provisioner "remote-exec" {
     inline = [
       local.setup_kubespray_script_content,
-      "echo ${var.ssh_private_key} | base64 -d > ${local.kubespray_data_dir}/id_rsa",
+      "echo \"${var.ssh_private_key}\" | base64 -d > ${local.kubespray_data_dir}/id_rsa",
       <<-EOT
       cat <<EOF > ${local.kubespray_data_dir}/inventory.ini
       ${local.kubespray_inventory_content}

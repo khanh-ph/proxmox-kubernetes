@@ -31,7 +31,7 @@ locals {
 
 variable "use_legacy_naming_convention" {
   type        = bool
-  description = "A boolean value that indicates whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
+  description = "Whether to use legacy naming convention for the VM and cluster name. If your cluster was provisioned using version <= 3.x, set it to `true`"
   default     = false
 }
 
@@ -87,12 +87,14 @@ variable "internal_net_subnet_cidr" {
 
 variable "ssh_private_key" {
   type        = string
-  description = "SSH private key in base64, will be used by Terraform client to connect to the VM after provisioning"
+  description = "SSH private key in base64, will be used by Terraform client to connect to the Kubespray VM after provisioning. We can set its sensitivity to false; otherwise, the output of the Kubespray script will be hidden."
+  sensitive   = false
 }
 
 variable "ssh_public_keys" {
   type        = string
   description = "SSH public keys in base64"
+  sensitive   = false
 }
 
 variable "vm_user" {
@@ -126,7 +128,7 @@ variable "vm_os_disk_storage" {
 
 variable "add_worker_node_data_disk" {
   type        = bool
-  description = "A boolean value that indicates whether to add a data disk to each worker node of the cluster"
+  description = "Whether to add a data disk to each worker node of the cluster"
   default     = false
 }
 
@@ -145,7 +147,7 @@ variable "worker_node_data_disk_size" {
 variable "vm_ubuntu_tmpl_name" {
   type        = string
   description = "Name of Cloud-init template Ubuntu VM"
-  default     = "ubuntu-2204"
+  default     = "ubuntu-2404"
 }
 
 variable "bastion_ssh_ip" {
@@ -183,19 +185,21 @@ variable "vm_k8s_worker" {
 # Kubernetes settings
 ########################################################################
 variable "create_kubespray_host" {
-  type    = bool
-  default = true
+  type        = bool
+  description = "Whether to provision the Kubespray as a VM"
+  default     = true
 }
 
 variable "kubespray_image" {
-  type    = string
-  default = "khanhphhub/kubespray:v2.22.0"
+  type        = string
+  description = "The Docker image to deploy Kubespray"
+  default     = "quay.io/kubespray/kubespray:v2.25.0"
 }
 
 variable "kube_version" {
   type        = string
   description = "Kubernetes version"
-  default     = "v1.24.6"
+  default     = "v1.29.5"
 }
 variable "kube_network_plugin" {
   type        = string
@@ -205,38 +209,38 @@ variable "kube_network_plugin" {
 
 variable "enable_nodelocaldns" {
   type        = bool
-  description = "A boolean value that indicates whether to enable nodelocal dns cache on your cluster"
+  description = "Whether to enable nodelocal dns cache on your cluster"
   default     = false
 }
 variable "podsecuritypolicy_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable pod security policy on your cluster (RBAC must be enabled either by having 'RBAC' in authorization_modes or kubeadm enabled)"
+  description = "Whether to enable pod security policy on your cluster (RBAC must be enabled either by having 'RBAC' in authorization_modes or kubeadm enabled)"
   default     = false
 }
 variable "persistent_volumes_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to add Persistent Volumes Storage Class for corresponding cloud provider (supported: in-tree OpenStack, Cinder CSI, AWS EBS CSI, Azure Disk CSI, GCP Persistent Disk CSI)"
+  description = "Whether to add Persistent Volumes Storage Class for corresponding cloud provider (supported: in-tree OpenStack, Cinder CSI, AWS EBS CSI, Azure Disk CSI, GCP Persistent Disk CSI)"
   default     = false
 }
 variable "helm_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable Helm on your cluster"
+  description = "Whether to enable Helm on your cluster"
   default     = false
 }
 variable "ingress_nginx_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable Nginx ingress on your cluster"
+  description = "Whether to enable Nginx ingress on your cluster"
   default     = false
 }
 variable "argocd_enabled" {
   type        = bool
-  description = "A boolean value that indicates whether to enable ArgoCD on your cluster"
+  description = "Whether to enable ArgoCD on your cluster"
   default     = false
 }
 variable "argocd_version" {
   type        = string
   description = "The ArgoCD version to be installed"
-  default     = "v2.4.12"
+  default     = "v2.11.4"
 }
 
 
