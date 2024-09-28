@@ -14,13 +14,16 @@ use_legacy_naming_convention = false
 ########################################################################
 # Proxmox VE API details and VM hosting configuration
 # API token guide: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-pm_api_url          = "https://your-proxmox-url/api"
-pm_api_token_id     = "your-api-token-id"
-pm_api_token_secret = "your-api-token-secret"
-pm_tls_insecure     = false
-pm_host             = "your-proxmox-host"
-pm_parallel         = 2
-pm_timeout          = 600
+pm_api_url               = "https://your-proxmox-url/api"
+pm_api_token_id          = "your-api-token-id"
+pm_api_token_secret      = "your-api-token-secret"
+pm_tls_insecure          = false
+pm_host                  = "your-proxmox-host"
+pm_parallel              = 2
+pm_timeout               = 600
+# Delay between actions is useful when proxmox starts to slow down,
+# it is recommended to try 45 seconds
+pm_between_actions_delay = null
 
 
 # Common infrastructure configurations
@@ -74,4 +77,5 @@ helm_enabled               = false
 ingress_nginx_enabled      = false
 argocd_enabled             = false
 argocd_version             = "v2.11.4"
+# Whether to add extra SAN to kubernetes x509 certificate
 apiserver_loadbalancer_domain_name = ""

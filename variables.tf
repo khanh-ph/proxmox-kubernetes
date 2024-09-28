@@ -77,6 +77,12 @@ variable "pm_timeout" {
   default     = 600
 }
 
+variable "pm_between_actions_delay" {
+  type        = number
+  description = "Delay between value (seconds) for proxmox API calls."
+  default     = null
+}
+
 # Common infrastructure
 ########################################################################
 variable "internal_net_name" {
