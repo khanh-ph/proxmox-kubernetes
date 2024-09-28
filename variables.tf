@@ -24,9 +24,15 @@ variable "cluster_domain" {
   default     = "local"
 }
 
+variable "cluster_fqdn_override" {
+  type        = string
+  description = "The cluster fqdn override"
+  default     = null
+}
+
 locals {
   cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
-  cluster_fqdn = "${local.cluster_name}.${var.cluster_domain}"
+  cluster_fqdn = var.cluster_fqdn_override != null ? var.cluster_fqdn_override : "${local.cluster_name}.${var.cluster_domain}"
 }
 
 variable "use_legacy_naming_convention" {
@@ -168,6 +174,12 @@ variable "bastion_ssh_port" {
   default     = 22
 }
 
+variable "bastion_private_key" {
+  type        = string
+  description = "SSH private key in base64"
+  sensitive   = false
+}
+
 # Kuberentes VM specifications for Kubernetes nodes
 ########################################################################
 variable "vm_k8s_control_plane" {
@@ -241,6 +253,11 @@ variable "argocd_version" {
   type        = string
   description = "The ArgoCD version to be installed"
   default     = "v2.11.4"
+}
+variable "apiserver_loadbalancer_domain_name" {
+  type        = string
+  description = "Whether to add extra SAN to kubernetes x509 certificate"
+  default     = ""
 }
 
 

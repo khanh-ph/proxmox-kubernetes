@@ -28,12 +28,13 @@ locals {
   kubespray_k8s_config_content = templatefile(
     "${path.module}/kubespray/k8s-cluster.yaml",
     {
-      kube_version               = var.kube_version
-      kube_network_plugin        = var.kube_network_plugin
-      cluster_name               = local.cluster_fqdn
-      enable_nodelocaldns        = var.enable_nodelocaldns
-      podsecuritypolicy_enabled  = var.podsecuritypolicy_enabled
-      persistent_volumes_enabled = var.persistent_volumes_enabled
+      kube_version                        = var.kube_version
+      kube_network_plugin                 = var.kube_network_plugin
+      cluster_name                        = local.cluster_fqdn
+      enable_nodelocaldns                 = var.enable_nodelocaldns
+      podsecuritypolicy_enabled           = var.podsecuritypolicy_enabled
+      persistent_volumes_enabled          = var.persistent_volumes_enabled
+      apiserver_loadbalancer_domain_name = var.apiserver_loadbalancer_domain_name
     }
   )
 
@@ -113,6 +114,7 @@ resource "null_resource" "setup_kubespray" {
     bastion_host = var.bastion_ssh_ip
     bastion_user = var.bastion_ssh_user
     bastion_port = var.bastion_ssh_port
+    bastion_private_key = base64decode(var.bastion_private_key)
   }
 
   triggers = {
