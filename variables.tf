@@ -183,6 +183,7 @@ variable "bastion_ssh_port" {
 variable "bastion_private_key" {
   type        = string
   description = "Optional Base64 encoded ssh key for bastion authentication"
+  default     = null
   sensitive   = false
 }
 
