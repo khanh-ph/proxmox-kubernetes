@@ -26,7 +26,7 @@ variable "cluster_domain" {
 
 variable "cluster_fqdn_override" {
   type        = string
-  description = "The cluster fqdn override"
+  description = "Optional full override of cluster fqdn, example: 'cluster.local'"
   default     = null
 }
 

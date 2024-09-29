@@ -4,7 +4,7 @@ env_name       = "demo"
 location       = null
 cluster_number = "01"
 cluster_domain = "local"
-# Optional full override of cluster domain
+# Optional full override of cluster fqdn, example: 'cluster.local'
 # cluster_fqdn_override = "cluster.local"
 # If using this project version >= 4.0.0 with a previously provisioned cluster,
 # check this setting: https://github.com/khanh-ph/proxmox-kubernetes/releases/tag/4.0.0
