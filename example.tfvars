@@ -4,7 +4,7 @@ env_name       = "demo"
 location       = null
 cluster_number = "01"
 cluster_domain = "local"
-# Cluster fqdn override - optional full override cluster domain
+# Optional full override of cluster domain
 # cluster_fqdn_override = "cluster.local"
 # If using this project version >= 4.0.0 with a previously provisioned cluster,
 # check this setting: https://github.com/khanh-ph/proxmox-kubernetes/releases/tag/4.0.0
@@ -23,7 +23,7 @@ pm_parallel              = 2
 pm_timeout               = 600
 # Delay between actions is useful when proxmox starts to slow down,
 # it is recommended to try 45 seconds
-pm_between_actions_delay = null
+# pm_between_actions_delay = 45
 
 
 # Common infrastructure configurations

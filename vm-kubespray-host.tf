@@ -72,6 +72,7 @@ module "kubespray_host" {
   vm_tags                      = "${var.env_name};terraform;kubespray"
   ssh_public_keys              = var.ssh_public_keys
   use_legacy_naming_convention = var.use_legacy_naming_convention
+  pm_between_actions_delay     = var.pm_between_actions_delay
 }
 
 resource "null_resource" "setup_kubespray" {
