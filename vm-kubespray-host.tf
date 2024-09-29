@@ -115,7 +115,7 @@ resource "null_resource" "setup_kubespray" {
     bastion_host = var.bastion_ssh_ip
     bastion_user = var.bastion_ssh_user
     bastion_port = var.bastion_ssh_port
-    bastion_private_key = base64decode(var.bastion_private_key)
+    bastion_private_key = var.bastion_private_key != null ? base64decode(var.bastion_private_key) : null
   }
 
   triggers = {
