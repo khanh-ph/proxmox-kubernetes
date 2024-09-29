@@ -24,9 +24,15 @@ variable "cluster_domain" {
   default     = "local"
 }
 
+variable "cluster_fqdn_override" {
+  type        = string
+  description = "Optional full override of cluster fqdn, example: 'cluster.local'"
+  default     = null
+}
+
 locals {
   cluster_name = var.location != null ? "k8s-${var.env_name}-${var.location}-${var.cluster_number}" : "k8s-${var.env_name}-${var.cluster_number}"
-  cluster_fqdn = "${local.cluster_name}.${var.cluster_domain}"
+  cluster_fqdn = var.cluster_fqdn_override != null ? var.cluster_fqdn_override : "${local.cluster_name}.${var.cluster_domain}"
 }
 
 variable "use_legacy_naming_convention" {
@@ -69,6 +75,12 @@ variable "pm_timeout" {
   type        = number
   description = "Timeout value (seconds) for proxmox API calls."
   default     = 600
+}
+
+variable "pm_between_actions_delay" {
+  type        = number
+  description = "Delay between value (seconds) for proxmox API calls."
+  default     = null
 }
 
 # Common infrastructure
@@ -168,6 +180,13 @@ variable "bastion_ssh_port" {
   default     = 22
 }
 
+variable "bastion_private_key" {
+  type        = string
+  description = "Optional Base64 encoded ssh key for bastion authentication"
+  default     = null
+  sensitive   = false
+}
+
 # Kuberentes VM specifications for Kubernetes nodes
 ########################################################################
 variable "vm_k8s_control_plane" {
@@ -241,6 +260,11 @@ variable "argocd_version" {
   type        = string
   description = "The ArgoCD version to be installed"
   default     = "v2.11.4"
+}
+variable "apiserver_loadbalancer_domain_name" {
+  type        = string
+  description = "Whether to add extra SAN (domain) to kubernetes x509 certificate, usefully to add external domain for access to kube api"
+  default     = ""
 }
 
 

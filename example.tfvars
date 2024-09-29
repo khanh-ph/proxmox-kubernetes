@@ -4,6 +4,8 @@ env_name       = "demo"
 location       = null
 cluster_number = "01"
 cluster_domain = "local"
+# Optional full override of cluster fqdn, example: 'cluster.local'
+# cluster_fqdn_override = "cluster.local"
 # If using this project version >= 4.0.0 with a previously provisioned cluster,
 # check this setting: https://github.com/khanh-ph/proxmox-kubernetes/releases/tag/4.0.0
 use_legacy_naming_convention = false
@@ -12,13 +14,16 @@ use_legacy_naming_convention = false
 ########################################################################
 # Proxmox VE API details and VM hosting configuration
 # API token guide: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-pm_api_url          = "https://your-proxmox-url/api"
-pm_api_token_id     = "your-api-token-id"
-pm_api_token_secret = "your-api-token-secret"
-pm_tls_insecure     = false
-pm_host             = "your-proxmox-host"
-pm_parallel         = 2
-pm_timeout          = 600
+pm_api_url               = "https://your-proxmox-url/api"
+pm_api_token_id          = "your-api-token-id"
+pm_api_token_secret      = "your-api-token-secret"
+pm_tls_insecure          = false
+pm_host                  = "your-proxmox-host"
+pm_parallel              = 2
+pm_timeout               = 600
+# Delay between actions is useful when proxmox starts to slow down,
+# if proxmox got often timeouts - it is recommended to try 45 seconds
+# pm_between_actions_delay = 45
 
 
 # Common infrastructure configurations
@@ -30,17 +35,19 @@ internal_net_subnet_cidr = "10.0.1.0/24"
 # Base64 encoded keys for Kubernetes admin authentication
 ssh_public_keys = "put-base64-encoded-public-keys-here"
 # Caution: In production, follow https://developer.hashicorp.com/terraform/tutorials/configuration-language/sensitive-variables
-# to protect the sensitive variable `ssh_private_key` 
+# to protect the sensitive variable `ssh_private_key`
 ssh_private_key = "put-base64-encoded-private-key-here"
 
 # Default disk storage for the VMs. Uncomment the following line if needed
 # vm_os_disk_storage = "local-lvm"
 
-# Bastion host details. This is required for the Terraform client to 
+# Bastion host details. This is required for the Terraform client to
 # connect to the Kubespray VM that will be placed into the internet network
 bastion_ssh_ip   = "192.168.1.131"
 bastion_ssh_user = "ubuntu"
 bastion_ssh_port = 22
+# Optional Base64 encoded ssh key for bastion authentication
+# bastion_private_key = ""
 
 # VM specifications
 ########################################################################
@@ -72,3 +79,5 @@ helm_enabled               = false
 ingress_nginx_enabled      = false
 argocd_enabled             = false
 argocd_version             = "v2.11.4"
+# Whether to add extra SAN (domain) to kubernetes x509 certificate, usefully to add external domain for access to kube api
+apiserver_loadbalancer_domain_name = ""

@@ -30,6 +30,9 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   automatic_reboot = true
   desc             = "This VM is managed by Terraform, cloned from an Cloud-init Ubuntu image, configured with an internal network and supports CPU hotplug/hot unplug and memory hotplug capabilities."
   tags             = var.vm_tags
+  clone_wait       = var.pm_between_actions_delay
+  additional_wait  = var.pm_between_actions_delay
+  ci_wait          = var.pm_between_actions_delay
 
   disks {
     virtio {
@@ -76,5 +79,4 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
       tags
     ]
   }
-
 }

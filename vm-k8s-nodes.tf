@@ -19,6 +19,7 @@ module "k8s_control_plane_nodes" {
   vm_tags                      = "${var.env_name};terraform;k8s_control_plane"
   ssh_public_keys              = var.ssh_public_keys
   use_legacy_naming_convention = var.use_legacy_naming_convention
+  pm_between_actions_delay     = var.pm_between_actions_delay
 }
 
 module "k8s_worker_nodes" {
@@ -45,6 +46,7 @@ module "k8s_worker_nodes" {
   worker_node_data_disk_storage = var.worker_node_data_disk_storage
   worker_node_data_disk_size    = var.worker_node_data_disk_size
   use_legacy_naming_convention  = var.use_legacy_naming_convention
+  pm_between_actions_delay      = var.pm_between_actions_delay
 }
 
 output "k8s_control_plane" {

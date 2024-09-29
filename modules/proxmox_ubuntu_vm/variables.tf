@@ -119,9 +119,15 @@ variable "use_legacy_naming_convention" {
   default = false
 }
 
+variable "pm_between_actions_delay" {
+  type        = number
+  description = "Delay between value (seconds) for proxmox API calls."
+  default     = null
+}
+
 #
 # Local vars
-# 
+#
 locals {
   vm_net_subnet_mask = "/${split("/", var.vm_net_subnet_cidr)[1]}"
   vm_net_default_gw  = cidrhost(var.vm_net_subnet_cidr, 1)
