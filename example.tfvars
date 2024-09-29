@@ -22,7 +22,7 @@ pm_host                  = "your-proxmox-host"
 pm_parallel              = 2
 pm_timeout               = 600
 # Delay between actions is useful when proxmox starts to slow down,
-# it is recommended to try 45 seconds
+# if proxmox got often timeouts - it is recommended to try 45 seconds
 # pm_between_actions_delay = 45
 
 
@@ -46,6 +46,8 @@ ssh_private_key = "put-base64-encoded-private-key-here"
 bastion_ssh_ip   = "192.168.1.131"
 bastion_ssh_user = "ubuntu"
 bastion_ssh_port = 22
+# Optional Base64 encoded ssh key for bastion authentication
+# bastion_private_key = ""
 
 # VM specifications
 ########################################################################
@@ -77,5 +79,5 @@ helm_enabled               = false
 ingress_nginx_enabled      = false
 argocd_enabled             = false
 argocd_version             = "v2.11.4"
-# Whether to add extra SAN to kubernetes x509 certificate
+# Whether to add extra SAN (domain) to kubernetes x509 certificate, usefully to add external domain for access to kube api
 apiserver_loadbalancer_domain_name = ""

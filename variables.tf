@@ -182,7 +182,7 @@ variable "bastion_ssh_port" {
 
 variable "bastion_private_key" {
   type        = string
-  description = "SSH private key in base64"
+  description = "Optional Base64 encoded ssh key for bastion authentication"
   sensitive   = false
 }
 
@@ -262,7 +262,7 @@ variable "argocd_version" {
 }
 variable "apiserver_loadbalancer_domain_name" {
   type        = string
-  description = "Whether to add extra SAN to kubernetes x509 certificate"
+  description = "Whether to add extra SAN (domain) to kubernetes x509 certificate, usefully to add external domain for access to kube api"
   default     = ""
 }
 
