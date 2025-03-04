@@ -35,6 +35,12 @@ variable "vm_net_subnet_cidr" {
   description = "Address prefix for the internal network"
 }
 
+variable "vm_net_default_gw_host_number" {
+  type        = number
+  description = "The host number of the default gateway in the subnet"
+  default     = 1
+}
+
 variable "ssh_public_keys" {
   type        = string
   description = "SSH public keys in base64."
@@ -130,5 +136,5 @@ variable "use_legacy_naming_convention" {
 # 
 locals {
   vm_net_subnet_mask = "/${split("/", var.vm_net_subnet_cidr)[1]}"
-  vm_net_default_gw  = cidrhost(var.vm_net_subnet_cidr, 1)
+  vm_net_default_gw  = cidrhost(var.vm_net_subnet_cidr, var.vm_net_default_gw_host_number)
 }
