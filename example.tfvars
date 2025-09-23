@@ -47,7 +47,8 @@ bastion_ssh_port = 22
 # VM specifications
 ########################################################################
 # Maximum cores that your Proxmox VE server can give to a VM
-vm_max_vcpus = 2
+vm_os_disk_storage = "nvme1"
+vm_cpu_cores = 2
 # Control plane VM specifications
 vm_k8s_control_plane = {
   node_count = 1
