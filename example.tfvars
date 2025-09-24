@@ -12,7 +12,7 @@ use_legacy_naming_convention = false
 ########################################################################
 # Proxmox VE API details and VM hosting configuration
 # API token guide: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-pm_api_url          = "https://your-proxmox-url/api"
+pm_api_url          = "https://your-proxmox-url/api2/json"
 pm_api_token_id     = "your-api-token-id"
 pm_api_token_secret = "your-api-token-secret"
 pm_tls_insecure     = false
