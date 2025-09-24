@@ -4,7 +4,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.1-rc3"
+      version = "3.0.2-rc04"
     }
   }
 }
@@ -18,19 +18,18 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   agent            = 1
   onboot           = var.vm_onboot
   os_type          = "cloud-init"
-  cores            = var.vm_max_vcpus
-  vcpus            = var.vm_vcpus
-  sockets          = var.vm_sockets
-  cpu              = var.vm_cpu_type
   memory           = var.vm_memory_mb
   bootdisk         = "virtio0"
   scsihw           = "virtio-scsi-single"
   hotplug          = "network,disk,usb,memory,cpu"
-  numa             = true
   automatic_reboot = true
-  desc             = "This VM is managed by Terraform, cloned from an Cloud-init Ubuntu image, configured with an internal network and supports CPU hotplug/hot unplug and memory hotplug capabilities."
+  description      = "This VM is managed by Terraform, cloned from an Cloud-init Ubuntu image, configured with an internal network and supports CPU hotplug/hot unplug and memory hotplug capabilities."
   tags             = var.vm_tags
-
+  cpu {
+    sockets = 1
+    cores = var.vm_cpu_cores
+    numa             = true
+  }
   disks {
     virtio {
       virtio0 {
@@ -62,6 +61,7 @@ resource "proxmox_vm_qemu" "ubuntu_vm" {
   }
 
   network {
+    id = 0
     model  = "virtio"
     bridge = var.vm_net_name
     mtu = var.vm_net_mtu

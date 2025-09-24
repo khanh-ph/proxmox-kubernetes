@@ -109,22 +109,10 @@ variable "vm_user" {
   default     = "ubuntu"
 }
 
-variable "vm_sockets" {
+variable "vm_cpu_cores" {
   type        = number
-  description = "Number of the CPU socket to allocate to the VMs"
-  default     = 1
-}
-
-variable "vm_max_vcpus" {
-  type        = number
-  description = "The maximum CPU cores available per CPU socket to allocate to the VM"
+  description = "The number of CPU cores available per CPU socket to allocate to the VM."
   default     = 2
-}
-
-variable "vm_cpu_type" {
-  type        = string
-  description = "The type of CPU to emulate in the Guest"
-  default     = "host"
 }
 
 variable "vm_os_disk_storage" {
